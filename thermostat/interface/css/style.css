@@ -1,0 +1,121 @@
+@font-face {
+    font-family: "Open Sans Condensed Light";
+    src: url('OpenSans-CondLight.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: "Open Sans Condensed Light Italic";
+    src: url('OpenSans-CondLightItalic.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: "Open Sans Condensed Bold";
+    src: url('OpenSans-CondBold.ttf') format("truetype");
+}
+
+html {
+    font-family: 'Open Sans Condensed Light', sans-serif;
+    overflow: hidden;
+    cursor: none;
+}
+
+body {
+    background-color: #0CA7D2;
+    font-family: 'Open Sans Condensed Light', sans-serif;
+}
+
+.container {
+    width: 100%;
+}
+
+.container .dashboard {
+    height: 100%;
+}
+
+.container .dashboard .date-time {
+    background-color: #0CA7D2;
+    height: 100%;
+    margin-top: 8%;
+}
+
+.container .dashboard .date-time .time {
+    color: #FFFFFF;
+    font-size: 14em;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.container .dashboard .date-time .date {
+    color: #035A73;
+    text-transform: uppercase;
+    font-size: 3.6em;
+    text-align: center;
+    margin-top: 0;
+}
+
+.container .dashboard .home-values {
+    background-color: #0785A9;
+    height: 100%;
+}
+
+.container .dashboard .home-values p {
+    color: #FFFFFF;
+    font-size: 3em;
+    text-align: center;
+}
+
+.container .dashboard .home-values p:first-child {
+    margin-bottom: 4%;
+    margin-top: 12%;
+}
+
+.container .dashboard .home-values p span {
+    color: #FFFFFF;
+    font-size: 3em;
+}
+
+.setup-button {
+    position: absolute;
+    width: 42px;
+    height: 46px;
+    bottom: 0px;
+    right: 0px;
+    background-color: transparent;
+}
+
+.setup-button a {
+    color: #FFFFFF;
+}
+
+.setup-screen a {
+    color: #FFFFFF;
+    /*margin-top: 14px;*/
+}
+
+.setup-screen p.lead {
+    font-size: 3em;
+    color: #FFFFFF;
+}
+
+.target-temperature {
+    color: #FFFFFF;
+    font-size: 8em;
+}
+
+.close-setup a {
+    width: 5%;
+}
+
+.increase-temp,
+.decrease-temp {
+    /*position: relative;*/
+    color: #FFFFFF;
+    font-size: 3em;
+    /*left: 50%;*/
+    /*margin-left: -20px;*/
+}
+
+.ui-btn {
+    border: none;
+    margin: 0;
+}
