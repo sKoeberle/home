@@ -76,20 +76,26 @@ body {
 
 .setup-button {
     position: absolute;
-    width: 42px;
+    width: 46px;
     height: 46px;
     bottom: 0px;
     right: 0px;
     background-color: transparent;
 }
 
-.setup-button a {
+.setup-button i {
+    color: #FFFFFF;
+    margin: 16px;
+}
+
+.setup-screen i {
     color: #FFFFFF;
 }
 
-.setup-screen a {
+.close-setup i {
     color: #FFFFFF;
-    /*margin-top: 14px;*/
+    margin-top: 14px;
+    margin-left: 20px;
 }
 
 .setup-screen p.lead {
@@ -97,9 +103,18 @@ body {
     color: #FFFFFF;
 }
 
+.setup-screen p span.muted {
+    color: #035A73;
+    font-size: 0.4em;
+}
+
 .target-temperature {
     color: #FFFFFF;
-    font-size: 8em;
+    font-size: 3em;
+}
+
+.target-temperature span {
+    font-size: 4em;
 }
 
 .close-setup a {
@@ -108,14 +123,9 @@ body {
 
 .increase-temp,
 .decrease-temp {
-    /*position: relative;*/
+    position: relative;
     color: #FFFFFF;
     font-size: 3em;
-    /*left: 50%;*/
-    /*margin-left: -20px;*/
-}
-
-.ui-btn {
-    border: none;
-    margin: 0;
+    left: 50%;
+    margin-left: -20px;
 }

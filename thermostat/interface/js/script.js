@@ -12,6 +12,9 @@ $(document).ready(function () {
         getSensor()
     }, 30000);
 
+    $('.date').on('click', function () {
+        window.location.reload();
+    });
 });
 
 
@@ -52,34 +55,39 @@ function readTargetTemperature() {
     $.getJSON('treatment.php', {
         action: 'getTargetTemperature'
     }).done(function (json) {
-        $('.target-temperature').html(json);
+        displayTargetTemperature(json);
     });
 }
 
 
 function decreaseTargetTemperature() {
 
-    var targetTemperature = parseFloat($('.target-temperature').text());
+    var targetTemperature = parseFloat($('.target-temperature span').text());
 
     if (targetTemperature > 16) {
         targetTemperature -= 0.5;
         var result = sprintf("%.1f", targetTemperature);
 
-        $('.target-temperature').html(result);
+        displayTargetTemperature(result);
     }
 }
 
 
 function increaseTargetTemperature() {
 
-    var targetTemperature = parseFloat($('.target-temperature').text());
+    var targetTemperature = parseFloat($('.target-temperature span').text());
 
     if (targetTemperature < 26) {
         targetTemperature += 0.5;
         var result = sprintf("%.1f", targetTemperature);
 
-        $('.target-temperature').html(result);
+        displayTargetTemperature(result);
     }
+}
+
+
+function displayTargetTemperature(temp) {
+    $('.target-temperature span').html(temp);
 }
 
 
