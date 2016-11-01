@@ -129,3 +129,21 @@ body {
     left: 50%;
     margin-left: -20px;
 }
+
+.validAction {
+    animation-name: validActionAnimation;
+    animation-duration: 2s;
+    animation-timing-function: ease;
+}
+
+@keyframes validActionAnimation {
+    0% {
+        color: #FFFFFF;
+    }
+    50% {
+        color: #00FF00;
+    }
+    100% {
+        color: #FFFFFF;
+    }
+}

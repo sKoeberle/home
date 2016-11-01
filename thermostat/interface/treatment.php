@@ -13,6 +13,10 @@ if ($_GET['action'] == 'getTargetTemperature') {
     echo json_encode( getTargetTemperature() );
 }
 
+if ($_GET['action'] == 'setTargetTemperature') {
+    echo json_encode( setTargetTemperature( $_GET['temperature'] ) );
+}
+
 function connectDB()
 {
 
@@ -52,5 +56,15 @@ function getTargetTemperature()
     $row = $res->fetch_assoc();
 
     return sprintf( "%01.1f", $row['temperature'] );
+
+}
+
+function setTargetTemperature( $temp )
+{
+    $mysqli = connectDB();
+
+    $res = $mysqli->query( "INSERT INTO `target` SET `temperature` = '$temp'" );
+
+    return $res;
 
 }

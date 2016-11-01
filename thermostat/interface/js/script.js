@@ -2,6 +2,10 @@
  * Created by stephane on 30/10/2016.
  */
 
+var minTemp = 17;
+var maxTemp = 25;
+var write;
+
 $(document).ready(function () {
 
     $('.setyp-screen').hide();
@@ -76,32 +80,67 @@ function readTargetTemperature() {
 
 function decreaseTargetTemperature() {
 
+    if (write !== undefined) {
+        clearTimeout(write);
+    }
+
     var targetTemperature = parseFloat($('.target-temperature span').text());
 
-    if (targetTemperature > 16) {
+    if (targetTemperature > minTemp) {
         targetTemperature -= 0.5;
         var result = sprintf("%.1f", targetTemperature);
 
         displayTargetTemperature(result);
+
+        write = setTimeout(function () {
+            setTargetTemperature(result)
+        }, 3000);
     }
 }
 
 
 function increaseTargetTemperature() {
 
+    if (write !== undefined) {
+        clearTimeout(write);
+    }
+
     var targetTemperature = parseFloat($('.target-temperature span').text());
 
-    if (targetTemperature < 26) {
+    if (targetTemperature < maxTemp) {
         targetTemperature += 0.5;
         var result = sprintf("%.1f", targetTemperature);
 
         displayTargetTemperature(result);
+
+        write = setTimeout(function () {
+            setTargetTemperature(result)
+        }, 3000);
+
     }
 }
 
 
 function displayTargetTemperature(temp) {
     $('.target-temperature span').html(temp);
+}
+
+
+function setTargetTemperature(temp) {
+
+    $.getJSON('treatment.php', {
+        action: 'setTargetTemperature',
+        temp: temp
+    }).done(function (json) {
+        if (json) {
+            $('.target-temperature').addClass('validAction');
+
+            setTimeout(function () {
+                $('.target-temperature').removeClass('validAction');
+            }, 3000);
+        }
+    });
+
 }
 
 
