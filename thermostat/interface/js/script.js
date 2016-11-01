@@ -20,7 +20,7 @@ $(document).ready(function () {
 
 function getSensor() {
 
-    $.getJSON('http://192.168.1.19', {
+    $.getJSON('http://192.168.1.10', {
         //
     }).done(function (json) {
 
@@ -30,6 +30,20 @@ function getSensor() {
         }
 
     });
+
+
+    $.getJSON('treatment.php', {
+        action: 'getCurrentTime'
+    }).done(function (json) {
+        $('.time').html(json);
+    });
+
+    $.getJSON('treatment.php', {
+        action: 'getCurrentDate'
+    }).done(function (json) {
+        $('.date').html(json);
+    });
+
 }
 
 

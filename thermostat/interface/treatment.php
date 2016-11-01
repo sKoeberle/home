@@ -1,6 +1,14 @@
 <?php
 
 
+if ($_GET['action'] == 'getCurrentDate') {
+    echo json_encode( getCurrentDate() );
+}
+
+if ($_GET['action'] == 'getCurrentTime') {
+    echo json_encode( getCurrentTime() );
+}
+
 if ($_GET['action'] == 'getTargetTemperature') {
     echo json_encode( getTargetTemperature() );
 }
@@ -20,6 +28,20 @@ function connectDB()
     }
 
     return $mysqli;
+}
+
+function getCurrentDate()
+{
+
+    $date = new DateTime();
+    return strtoupper( $date->format( "l, M j" ) );
+}
+
+function getCurrentTime()
+{
+
+    $time = new DateTime();
+    return $time->format( "H:i" );
 }
 
 function getTargetTemperature()

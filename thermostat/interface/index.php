@@ -33,7 +33,7 @@
     </div>
     <div class="row setup-screen">
         <div class="col-xs-11 col-md-11">
-            <p class="lead text-left">SETUP <span class="muted">Change the temperature by pressing on the arrows</span></p>
+            <p class="lead text-left">SETUP <span class="muted">Get the desired temperature by pressing the arrows</span></p>
         </div>
         <div class="col-xs-1 col-md-1 pull-right ui-btn close-setup" onclick="closeSetup();">
            <i class="glyphicon glyphicon-remove"></i>
