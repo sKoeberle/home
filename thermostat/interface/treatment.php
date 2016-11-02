@@ -9,12 +9,16 @@ if ($_GET['action'] == 'getCurrentTime') {
     echo json_encode( getCurrentTime() );
 }
 
+if ($_GET['action'] == 'setCurrentSensorData') {
+    echo json_encode( setCurrentSensorData( $_GET['data'] ) );
+}
+
 if ($_GET['action'] == 'getTargetTemperature') {
     echo json_encode( getTargetTemperature() );
 }
 
 if ($_GET['action'] == 'setTargetTemperature') {
-    echo json_encode( setTargetTemperature( $_GET['temperature'] ) );
+    echo json_encode( setTargetTemperature( $_GET['temp'] ) );
 }
 
 function connectDB()
@@ -63,8 +67,20 @@ function setTargetTemperature( $temp )
 {
     $mysqli = connectDB();
 
-    $res = $mysqli->query( "INSERT INTO `target` SET `temperature` = '$temp'" );
+    $res = $mysqli->query( "INSERT INTO `target` SET `temperature` = '$temp', `demand` = NOW()" );
 
     return $res;
+
+}
+
+function setCurrentSensorData( $data )
+{
+
+    $mysqli = connectDB();
+
+    $mysqli->query( "INSERT INTO `sensors` SET `type` = 'temperature', `location` = '$data[sensor]', value = $data[temperature]" );
+    $mysqli->query( "INSERT INTO `sensors` SET `type` = 'humidity', `location` = '$data[sensor]', value = $data[humidity]" );
+
+    return;
 
 }

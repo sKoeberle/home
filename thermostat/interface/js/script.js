@@ -8,13 +8,13 @@ var write;
 
 $(document).ready(function () {
 
-    $('.setyp-screen').hide();
+    $('.setup-screen').hide();
 
     getSensor();
 
     window.loop = setInterval(function () {
         getSensor()
-    }, 30000);
+    }, 60000);
 
     $('.date').on('click', function () {
         window.location.reload();
@@ -33,6 +33,8 @@ function getSensor() {
             $('.humidity span').html(json.humidity);
         }
 
+        setCurrentSensorData(json);
+
     });
 
 
@@ -48,6 +50,17 @@ function getSensor() {
         $('.date').html(json);
     });
 
+}
+
+
+function setCurrentSensorData(object) {
+
+    $.getJSON('treatment.php', {
+        action: 'setCurrentSensorData',
+        data: object
+    }).done(function (json) {
+        //
+    });
 }
 
 
