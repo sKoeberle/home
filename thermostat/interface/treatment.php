@@ -9,16 +9,16 @@ if ($_GET['action'] == 'getCurrentTime') {
     echo json_encode( getCurrentTime() );
 }
 
-if ($_GET['action'] == 'setCurrentSensorData') {
-    echo json_encode( setCurrentSensorData( $_GET['data'] ) );
-}
-
 if ($_GET['action'] == 'getTargetTemperature') {
     echo json_encode( getTargetTemperature() );
 }
 
 if ($_GET['action'] == 'setTargetTemperature') {
     echo json_encode( setTargetTemperature( $_GET['temp'] ) );
+}
+
+if ($_GET['action'] == 'getCurrentSensorData') {
+    echo json_encode( getCurrentSensorData( $_GET['sensor'] ) );
 }
 
 function connectDB()
@@ -73,14 +73,18 @@ function setTargetTemperature( $temp )
 
 }
 
-function setCurrentSensorData( $data )
+function getCurrentSensorData( $sensor )
 {
-
     $mysqli = connectDB();
 
-    $mysqli->query( "INSERT INTO `sensors` SET `type` = 'temperature', `location` = '$data[sensor]', value = $data[temperature]" );
-    $mysqli->query( "INSERT INTO `sensors` SET `type` = 'humidity', `location` = '$data[sensor]', value = $data[humidity]" );
+    $res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,1" );
+    $row = $res->fetch_assoc();
+    $result['temperature']= $row['value'];
 
-    return;
+    $res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'humidity' ORDER BY `recordTime` DESC LIMIT 0,1" );
+    $row = $res->fetch_assoc();
+    $result['humidity']= $row['value'];
+
+    return $result;
 
 }

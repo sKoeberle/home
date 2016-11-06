@@ -24,19 +24,19 @@ $(document).ready(function () {
 
 function getSensor() {
 
-    $.getJSON('http://192.168.1.10', {
-        //
+
+    $.getJSON('treatment.php', {
+        action: 'getCurrentSensorData',
+        sensor: 'living-room'
     }).done(function (json) {
+        // var a = sprintf("%.1f", json.temperature);
+        // var b = sprintf("%.1f", json.humidity);
+        // $('.temperature span').html(a);
+        // $('.humidity span').html(b);
 
-        if (json.sensor == 'living-room') {
-            $('.temperature span').html(json.temperature);
-            $('.humidity span').html(json.humidity);
-        }
-
-        setCurrentSensorData(json);
-
+        $('.temperature span.unity').html(json.temperature);
+        $('.humidity span.unity').html(json.humidity);
     });
-
 
     $.getJSON('treatment.php', {
         action: 'getCurrentTime'
@@ -50,17 +50,6 @@ function getSensor() {
         $('.date').html(json);
     });
 
-}
-
-
-function setCurrentSensorData(object) {
-
-    $.getJSON('treatment.php', {
-        action: 'setCurrentSensorData',
-        data: object
-    }).done(function (json) {
-        //
-    });
 }
 
 

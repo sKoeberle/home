@@ -5,7 +5,7 @@
     <title>Thermostat Interface</title>
 
     <link rel="stylesheet" href="../../vendor/jquery-ui-1.12.1/jquery-ui.css">
-<!--    <link rel="stylesheet" href="../../vendor/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css">-->
+    <!--    <link rel="stylesheet" href="../../vendor/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css">-->
     <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -27,8 +27,8 @@
             <h3 class="date ui-btn"><?php echo strtoupper( $date->format( "l, M j" ) ); ?></h3>
         </div>
         <div class="col-xs-6 col-md-6 home-values">
-            <p class="temperature"><span>00.0</span>°C</p>
-            <p class="humidity"><span>00.0</span>%</p>
+            <div class="temperature"><p><span class="unity">00</span><span class="float">.0</span><span class="unit">°C</span></p></div>
+            <div class="humidity"><p><span class="unity">00</span><span class="float">.0</span><span class="unit">%</span></p></div>
         </div>
     </div>
     <div class="row setup-screen">
@@ -36,7 +36,7 @@
             <p class="lead text-left">SETUP <span class="muted">Get the desired temperature by pressing the arrows</span></p>
         </div>
         <div class="col-xs-1 col-md-1 pull-right ui-btn close-setup" onclick="closeSetup();">
-           <i class="glyphicon glyphicon-remove"></i>
+            <i class="glyphicon glyphicon-remove"></i>
         </div>
 
         <div class="col-xs-3 col-md-3"></div>
