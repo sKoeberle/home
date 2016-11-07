@@ -21,6 +21,11 @@
 <body>
 <div class="container">
     <div class="row dashboard">
+        <div class="ambiance-mode">
+            <i class="auto">AUTO</i>
+            <i class="sun"></i>
+            <i class="cold"></i>
+        </div>
         <div class="col-xs-6 col-md-6 date-time">
             <?php $date = new DateTime(); ?>
             <h2 class="time"><?php echo $date->format( "H:i" ); ?></h2>

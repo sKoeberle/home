@@ -1,6 +1,14 @@
 <?php
 
 
+if ($_GET['action'] == 'getAmbianceMode') {
+    echo json_encode( getAmbianceMode() );
+}
+
+if ($_GET['action'] == 'getCurrentAmbianceMode') {
+    echo json_encode( getCurrentAmbianceMode() );
+}
+
 if ($_GET['action'] == 'getCurrentDate') {
     echo json_encode( getCurrentDate() );
 }
@@ -36,6 +44,28 @@ function connectDB()
     }
 
     return $mysqli;
+}
+
+function getAmbianceMode()
+{
+    $mysqli = connectDB();
+
+    $res = $mysqli->query( "SELECT `value` FROM `general` WHERE `label` = 'ambianceMode' LIMIT 0,1" );
+    $row = $res->fetch_assoc();
+
+    return $row['value'];
+
+}
+
+function getCurrentAmbianceMode()
+{
+    $mysqli = connectDB();
+
+    $res = $mysqli->query( "SELECT `value` FROM `general` WHERE `label` = 'currentAmbianceMode' LIMIT 0,1" );
+    $row = $res->fetch_assoc();
+
+    return $row['value'];
+
 }
 
 function getCurrentDate()
@@ -79,11 +109,11 @@ function getCurrentSensorData( $sensor )
 
     $res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,1" );
     $row = $res->fetch_assoc();
-    $result['temperature']= $row['value'];
+    $result['temperature'] = $row['value'];
 
     $res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'humidity' ORDER BY `recordTime` DESC LIMIT 0,1" );
     $row = $res->fetch_assoc();
-    $result['humidity']= $row['value'];
+    $result['humidity'] = $row['value'];
 
     return $result;
 

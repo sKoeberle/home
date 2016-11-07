@@ -61,16 +61,17 @@ body {
 .container .dashboard .home-values div.temperature {
     background: url('../images/temperature-white.svg');
     background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    margin-top: 15px;
-    height: 250px;
+    background-position: 20px 130px;
+    background-size: 80px;
+    margin-top: 60px;
+    margin-right: 30px;
+    height: 220px;
 }
 
 .container .dashboard .home-values .temperature p {
     color: #FFFFFF;
     font-size: 4.5em;
-    text-align: center;
+    text-align: right;
     height: 100%;
     letter-spacing: -0.05em;
 }
@@ -78,10 +79,10 @@ body {
 .container .dashboard .home-values div.humidity {
     background: url('../images/drop-white.svg');
     background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    margin-top: 15px;
-    height: 180px;
+    background-position: 0px 60px;
+    background-size: 80px;
+    height: 150px;
+    margin-left: 70px;
 }
 
 .container .dashboard .home-values .humidity p {
@@ -102,8 +103,54 @@ body {
 }
 
 .container .dashboard .home-values p span.unit {
-    color: #057495;
+    color: #035A73;
     font-size: 1em;
+}
+
+.ambiance-mode {
+    position: absolute;
+    width: 150px;
+    height: 60px;
+    top: 0px;
+    right: 0px;
+    background-color: transparent;
+    z-index: 2;
+}
+
+.ambiance-mode .auto {
+    float: right;
+    width: 80px;
+    height: 100px;
+    font-size: 3em;
+    font-family: "Open Sans Condensed Light";
+    font-style: normal;
+    text-align: right;
+    margin-right: 12px;
+    color: white;
+}
+
+.ambiance-mode .sun {
+    float: right;
+    display: block;
+    width: 50px;
+    height: 60px;
+    opacity: 1;
+    background: url('../images/ambiance-comfort.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40px;
+}
+
+.ambiance-mode .cold {
+    float: right;
+    display: block;
+    width: 50px;
+    height: 60px;
+    opacity: 1;
+    background: url('../images/ambiance-reduced.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40px;
 }
 
 .setup-button {
@@ -116,7 +163,7 @@ body {
 }
 
 .setup-button i {
-    color: #057495;
+    color: #035A73;
     font-size: 40px
 }
 

@@ -11,6 +11,8 @@ $(document).ready(function () {
     $('.setup-screen').hide();
 
     getSensor();
+    getAmbianceMode();
+    getCurrentAmbianceMode();
 
     window.loop = setInterval(function () {
         getSensor()
@@ -50,6 +52,39 @@ function getSensor() {
         $('.date').html(json);
     });
 
+}
+
+function getAmbianceMode() {
+
+    $.getJSON('treatment.php', {
+        action: 'getAmbianceMode'
+    }).done(function (json) {
+        if (json == 'auto') {
+            $('.ambiance-mode .auto').css('opacity', 1);
+        } else {
+            $('.ambiance-mode .auto').css('opacity', 0.2);
+        }
+    });
+
+}
+
+function getCurrentAmbianceMode() {
+
+    $.getJSON('treatment.php', {
+        action: 'getCurrentAmbianceMode'
+    }).done(function (json) {
+
+        if (json == 'reduced') {
+            $('.ambiance-mode .sun').hide();
+            $('.ambiance-mode .cold').show();
+        }
+
+        if (json == 'comfort') {
+            $('.ambiance-mode .cold').hide();
+            $('.ambiance-mode .sun').show();
+        }
+
+    });
 }
 
 
