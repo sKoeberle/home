@@ -1,5 +1,5 @@
 /**
- * Created by stephane on 30/10/2016.
+ * Created by Stéphane Koeberlé on 30/10/2016.
  */
 
 var minTemp = 17;
@@ -16,16 +16,18 @@ $(document).ready(function () {
 
     window.loop = setInterval(function () {
         getSensor()
+        getAmbianceMode()
+        getCurrentAmbianceMode()
     }, 60000);
 
     $('.date').on('click', function () {
         window.location.reload();
     });
+
 });
 
 
 function getSensor() {
-
 
     $.getJSON('treatment.php', {
         action: 'getCurrentSensorData',
@@ -89,6 +91,7 @@ function getCurrentAmbianceMode() {
 
 
 function setup() {
+
     $('.setup-button').fadeOut();
     $('.setup-screen').slideLeftShow();
     $('.dashboard').slideLeftHide();
@@ -99,6 +102,7 @@ function setup() {
 
 
 function closeSetup() {
+
     $('.setup-screen').slideRightHide();
     $('.dashboard').slideLeftShow();
     $('.setup-button').fadeIn();
@@ -107,11 +111,13 @@ function closeSetup() {
 
 
 function readTargetTemperature() {
+
     $.getJSON('treatment.php', {
         action: 'getTargetTemperature'
     }).done(function (json) {
         displayTargetTemperature(json);
     });
+
 }
 
 
@@ -133,6 +139,7 @@ function decreaseTargetTemperature() {
             setTargetTemperature(result)
         }, 3000);
     }
+
 }
 
 
@@ -155,11 +162,14 @@ function increaseTargetTemperature() {
         }, 3000);
 
     }
+
 }
 
 
 function displayTargetTemperature(temp) {
+
     $('.target-temperature span').html(temp);
+
 }
 
 
@@ -182,6 +192,7 @@ function setTargetTemperature(temp) {
 
 
 jQuery.fn.extend({
+
     slideRightShow: function () {
         return this.each(function () {
             $(this).show('slide', {direction: 'right'}, 1000);
@@ -202,4 +213,5 @@ jQuery.fn.extend({
             $(this).show('slide', {direction: 'left'}, 1000);
         });
     }
+
 });

@@ -1,11 +1,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <!--<meta HTTP-EQUIV="refresh" CONTENT="60">-->
     <title>Thermostat Interface</title>
 
     <link rel="stylesheet" href="../../vendor/jquery-ui-1.12.1/jquery-ui.css">
-    <!--    <link rel="stylesheet" href="../../vendor/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css">-->
     <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/style.css">
