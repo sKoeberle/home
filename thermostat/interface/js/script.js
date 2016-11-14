@@ -33,13 +33,18 @@ function getSensor() {
         action: 'getCurrentSensorData',
         sensor: 'living-room'
     }).done(function (json) {
-        // var a = sprintf("%.1f", json.temperature);
-        // var b = sprintf("%.1f", json.humidity);
-        // $('.temperature span').html(a);
-        // $('.humidity span').html(b);
 
-        $('.temperature span.unity').html(json.temperature);
-        $('.humidity span.unity').html(json.humidity);
+        var temperature = json.temperature.split('.');
+
+        $('.temperature span.unity').html(temperature[0]);
+        $('.temperature span.float').html(temperature[1]);
+
+
+        var humidity = json.humidity.split('.');
+
+        $('.humidity span.unity').html(humidity[0]);
+        $('.humidity span.float').html(humidity[1]);
+
     });
 
     $.getJSON('treatment.php', {

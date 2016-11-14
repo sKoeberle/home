@@ -30,8 +30,8 @@
             <h3 class="date ui-btn"><?php echo strtoupper( $date->format( "l, M j" ) ); ?></h3>
         </div>
         <div class="col-xs-6 col-md-6 home-values">
-            <div class="temperature"><p><span class="unity">00</span><span class="float">.0</span><span class="unit">°C</span></p></div>
-            <div class="humidity"><p><span class="unity">00</span><span class="float">.0</span><span class="unit">%</span></p></div>
+            <div class="temperature"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">°C</span></p></div>
+            <div class="humidity"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">%</span></p></div>
         </div>
     </div>
     <div class="row setup-screen">
