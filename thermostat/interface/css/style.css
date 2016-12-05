@@ -22,6 +22,7 @@ html {
 body {
     background-color: #0CA7D2;
     font-family: 'Open Sans Condensed Light', sans-serif;
+    cursor: none;
 }
 
 .container {

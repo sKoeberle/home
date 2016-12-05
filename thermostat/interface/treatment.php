@@ -29,6 +29,15 @@ if ($_GET['action'] == 'getCurrentSensorData') {
     echo json_encode( getCurrentSensorData( $_GET['sensor'] ) );
 }
 
+if ($_GET['action'] == 'getDateOfLastRecordedData') {
+    echo json_encode( getDateOfLastRecordedData( $_GET['sensor'] ) );
+}
+
+if ($_GET['action'] == 'getTemperatureSettings') {
+    echo json_encode( getTemperatureSettings() );
+}
+
+
 function connectDB()
 {
 
@@ -93,6 +102,26 @@ function getTargetTemperature()
 
 }
 
+function getTemperatureSettings()
+{
+
+    $mysqli = connectDB();
+
+    $res = $mysqli->query( "SELECT `value` FROM `general` WHERE `label` = 'maxTemperatureSetting' LIMIT 0,1" );
+    $row = $res->fetch_assoc();
+    $result['maxTemperatureSetting'] = $row['value'];
+
+    $res = $mysqli->query( "SELECT `value` FROM `general` WHERE `label` = 'minTemperatureSetting' LIMIT 0,1" );
+    $row = $res->fetch_assoc();
+    $result['minTemperatureSetting'] = $row['value'];
+
+    $res = $mysqli->query( "SELECT `value` FROM `general` WHERE `label` = 'stepTemperatureSetting' LIMIT 0,1" );
+    $row = $res->fetch_assoc();
+    $result['stepTemperatureSetting'] = $row['value'];
+
+    return $result;
+}
+
 function setTargetTemperature( $temp )
 {
     $mysqli = connectDB();
@@ -117,4 +146,15 @@ function getCurrentSensorData( $sensor )
 
     return $result;
 
+}
+
+function getDateOfLastRecordedData( $sensor )
+{
+    $mysqli = connectDB();
+
+    $res = $mysqli->query( "SELECT UNIX_TIMESTAMP(`recordTime`) FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,1" );
+    $row = $res->fetch_row();
+    $result = $row[0];
+
+    return $result;
 }

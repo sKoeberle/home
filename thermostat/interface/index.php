@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../../vendor/jquery-ui-1.12.1/jquery-ui.css">
     <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="../../vendor/rangeslider.js-2.3.0/rangeslider.css">
     <link rel="stylesheet" href="css/style.css">
 
     <script src="../../vendor/jquery/jquery-3.1.1.min.js"></script>
@@ -13,6 +14,7 @@
     <script src="../../vendor/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="../../vendor/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script src="../../vendor/sprintf/sprintf.min.js"></script>
+    <script src="../../vendor/rangeslider.js-2.3.0/rangeslider.js"></script>
     <script src="js/script.js"></script>
 
 </head>
@@ -43,15 +45,23 @@
         </div>
 
         <div class="col-xs-3 col-md-3"></div>
-        <div class="col-xs-6 col-md-6">
-            <a class="ui-btn increase-temp text-center" onclick="increaseTargetTemperature();">
-                <i class="glyphicon glyphicon-chevron-up"></i>
-            </a>
-            <p class="target-temperature text-center"><span>00.0</span>°C</p>
-            <a class="ui-btn decrease-temp text-center" onclick="decreaseTargetTemperature();">
-                <i class="glyphicon glyphicon-chevron-down"></i>
-            </a>
-        </div>
+                <div class="col-xs-6 col-md-6">
+                    <a class="ui-btn increase-temp text-center" onclick="increaseTargetTemperature();">
+                        <i class="glyphicon glyphicon-chevron-up"></i>
+                    </a>
+                    <p class="target-temperature text-center"><span>00.0</span>°C</p>
+                    <a class="ui-btn decrease-temp text-center" onclick="decreaseTargetTemperature();">
+                        <i class="glyphicon glyphicon-chevron-down"></i>
+                    </a>
+                </div>
+<!--        <div class="col-xs-6 col-md-6">-->
+<!--            <input id="tempSetting" type="range"-->
+<!--                   min="0"-->
+<!--                   max="0"-->
+<!--                   step="0"-->
+<!--                   value="0"-->
+<!--                   data-orientation="horizontal">-->
+<!--        </div>-->
         <div class="col-xs-3 col-md-3"></div>
     </div>
 </div>

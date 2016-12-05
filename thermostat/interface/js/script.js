@@ -8,6 +8,8 @@ var write;
 
 $(document).ready(function () {
 
+    getDateOfLastRecordedData()
+
     $('.setup-screen').hide();
 
     getSensor();
@@ -18,6 +20,7 @@ $(document).ready(function () {
         getSensor()
         getAmbianceMode()
         getCurrentAmbianceMode()
+        getDateOfLastRecordedData()
     }, 60000);
 
     $('.date').on('click', function () {
@@ -25,6 +28,33 @@ $(document).ready(function () {
     });
 
 });
+
+
+function getDateOfLastRecordedData() {
+
+    $.getJSON('treatment.php', {
+        action: 'getDateOfLastRecordedData',
+        sensor: 'living-room'
+    }).done(function (json) {
+
+        // record date
+        var d = json;
+
+        // current date
+        var t = parseInt(Date.now() / 1000);
+
+        // 15 minutes
+        var quarter = 60 * 15;
+
+        // calculate difference and verify
+        if (t - d > quarter) {
+            var color = 'rgb(255,200, 0)';
+            $('.unity').css('color', color);
+            $('.dot').css('color', color);
+            $('.float').css('color', color);
+        }
+    });
+}
 
 
 function getSensor() {
@@ -126,6 +156,17 @@ function readTargetTemperature() {
 }
 
 
+function readTemperatureSettings() {
+
+    $.getJSON('treatment.php', {
+        action: 'getTemperatureSettings'
+    }).done(function (json) {
+        setTemperatureSettings(json);
+    });
+
+}
+
+
 function decreaseTargetTemperature() {
 
     if (write !== undefined) {
@@ -174,6 +215,15 @@ function increaseTargetTemperature() {
 function displayTargetTemperature(temp) {
 
     $('.target-temperature span').html(temp);
+
+}
+
+
+function setTemperatureSettings(settings) {
+
+    console.log(settings);
+
+    // $('#tempSetting').attr();
 
 }
 
