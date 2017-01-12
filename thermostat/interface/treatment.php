@@ -144,6 +144,10 @@ function getCurrentSensorData( $sensor )
     $row = $res->fetch_assoc();
     $result['humidity'] = $row['value'];
 
+    $res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'pressure' ORDER BY `recordTime` DESC LIMIT 0,1" );
+    $row = $res->fetch_assoc();
+    $result['pressure'] = $row['value'];
+
     return $result;
 
 }

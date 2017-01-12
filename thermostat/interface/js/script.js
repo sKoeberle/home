@@ -8,19 +8,22 @@ var write;
 
 $(document).ready(function () {
 
-    getDateOfLastRecordedData()
+    getDateOfLastRecordedData('living-room');
 
+    $('.exterior-screen').hide();
     $('.setup-screen').hide();
 
-    getSensor();
+    getSensor('living-room');
+    getSensor('exterior');
     getAmbianceMode();
     getCurrentAmbianceMode();
 
     window.loop = setInterval(function () {
-        getSensor()
-        getAmbianceMode()
-        getCurrentAmbianceMode()
-        getDateOfLastRecordedData()
+        getSensor('living-room');
+        getSensor('exterior');
+        getAmbianceMode();
+        getCurrentAmbianceMode();
+        getDateOfLastRecordedData('living-room');
     }, 60000);
 
     $('.date').on('click', function () {
@@ -30,11 +33,11 @@ $(document).ready(function () {
 });
 
 
-function getDateOfLastRecordedData() {
+function getDateOfLastRecordedData(location) {
 
     $.getJSON('treatment.php', {
         action: 'getDateOfLastRecordedData',
-        sensor: 'living-room'
+        sensor: location
     }).done(function (json) {
 
         // record date
@@ -57,23 +60,33 @@ function getDateOfLastRecordedData() {
 }
 
 
-function getSensor() {
+function getSensor(location) {
 
     $.getJSON('treatment.php', {
         action: 'getCurrentSensorData',
-        sensor: 'living-room'
+        sensor: location
     }).done(function (json) {
 
-        var temperature = json.temperature.split('.');
+        if (json.temperature) {
+            var temperature = json.temperature.split('.');
 
-        $('.temperature span.unity').html(temperature[0]);
-        $('.temperature span.float').html(temperature[1]);
+            $('.' + location + '.temperature span.unity').html(temperature[0]);
+            $('.' + location + '.temperature span.float').html(temperature[1]);
+        }
 
+        if (json.humidity) {
+            var humidity = json.humidity.split('.');
 
-        var humidity = json.humidity.split('.');
+            $('.' + location + '.humidity span.unity').html(humidity[0]);
+            $('.' + location + '.humidity span.float').html(humidity[1]);
+        }
 
-        $('.humidity span.unity').html(humidity[0]);
-        $('.humidity span.float').html(humidity[1]);
+        if (json.pressure) {
+            var pressure = json.pressure.split('.');
+
+            $('.' + location + '.pressure span.unity').html(pressure[0]);
+            // $('.' + location + '.pressure span.float').html(pressure[1]);
+        }
 
     });
 
