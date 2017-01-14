@@ -37,6 +37,10 @@ if ($_GET['action'] == 'getTemperatureSettings') {
     echo json_encode( getTemperatureSettings() );
 }
 
+if ($_GET['action'] == 'getSensorHistory') {
+    echo json_encode( getSensorHistory( $_GET['sensor'] ) );
+}
+
 
 function connectDB()
 {
@@ -161,4 +165,55 @@ function getDateOfLastRecordedData( $sensor )
     $result = $row[0];
 
     return $result;
+}
+
+function getSensorHistory( $sensor )
+{
+    $mysqli = connectDB();
+
+
+    // TEMPERATURE
+    $res = $mysqli->query( "SELECT TIME_FORMAT(`recordTime`,'%H:%i') FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,24" );
+    $row = $res->fetch_all( MYSQLI_NUM );
+    $tempArray = array();
+    foreach ($row as $key => $value) {
+        $tempArray[] = implode( "", $value );
+    }
+    $result['temperature']['labels'] = array_reverse( $tempArray );
+
+    $res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,24" );
+    $row = $res->fetch_all( MYSQLI_NUM );
+    $tempArray = array();
+    foreach ($row as $key => $value) {
+        $tempArray[] = implode( "", $value );
+    }
+    $result['temperature']['series'] = array( array_reverse( $tempArray ) );
+
+
+    // HUMIDITY
+//    $res = $mysqli->query( "SELECT `recordTime`,`value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'humidity' ORDER BY `recordTime` DESC LIMIT 0,144" );
+//    $row = $res->fetch_all( MYSQLI_ASSOC );
+//    $result['humidity'] = $row;
+
+
+    // PRESSURE
+    $res = $mysqli->query( "SELECT TIME_FORMAT(`recordTime`,'%H:%i') FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'pressure' AND `value` > 0 ORDER BY `recordTime` DESC LIMIT 0,24" );
+    $row = $res->fetch_all( MYSQLI_NUM );
+    $tempArray = array();
+    foreach ($row as $key => $value) {
+        $tempArray[] = implode( "", $value );
+    }
+    $result['pressure']['labels'] = array_reverse( $tempArray );
+
+    $res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'pressure' AND `value` > 0 ORDER BY `recordTime` DESC LIMIT 0,24" );
+    $row = $res->fetch_all( MYSQLI_NUM );
+    $tempArray = array();
+    foreach ($row as $key => $value) {
+        $val = implode( "", $value );
+        $tempArray[] = $val;
+    }
+    $result['pressure']['series'] = array( array_reverse( $tempArray ) );
+
+    return $result;
+
 }

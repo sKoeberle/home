@@ -29,11 +29,11 @@ body {
     width: 100%;
 }
 
-.container .exterior-screen {
+.container .outside-screen {
     height: 100%;
 }
 
-.exterior-button {
+.outside-button {
     position: absolute;
     width: 46px;
     height: 46px;
@@ -42,19 +42,81 @@ body {
     background-color: transparent;
 }
 
-.exterior-button i {
+.outside-button i {
     color: #035A73;
     font-size: 40px
 }
 
-.exterior-screen i {
+.outside-screen i {
     color: #FFFFFF;
 }
 
-.exterior-screen .close-exterior-screen i {
+.outside-screen p.lead {
+    font-size: 3em;
+    color: #FFFFFF;
+    margin-bottom: 0;
+}
+
+.outside-screen p span.muted {
+    color: #035A73;
+    font-size: 0.4em;
+}
+
+.outside-screen .lead {
+    /*line-height: 2em;*/
+}
+
+.outside-screen .close-outside-screen {
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+
+.outside-screen .close-outside-screen i {
     color: #FFFFFF;
     margin-top: 8px;
     font-size: 40px;
+}
+
+.outside-screen .ct-chart {
+    height: 210px;
+    display: inline-block;
+}
+
+.outside-screen .ct-series-a .ct-area, .outside-screen .ct-series-a .ct-slice-pie {
+    fill: #fff;
+}
+
+.outside-screen .ct-line {
+    stroke: white;
+}
+
+.outside-screen .ct-label {
+    font-size: .95em;
+    font-weight: bold;
+    margin-top: 4px;
+}
+
+.outside-screen .ct-label.ct-horizontal {
+    margin-left: -13px;
+}
+
+.outside-screen .chart-outside-temperature-label {
+    position: absolute;
+    top: 29%;
+    left: 39%;
+    font-size: 3em;
+    color: white;
+    opacity: 0.35;
+}
+
+.outside-screen .chart-outside-pressure-label {
+    position: absolute;
+    top: 72%;
+    left: 43%;
+    font-size: 3em;
+    color: white;
+    opacity: 0.35;
 }
 
 .container .dashboard {
@@ -139,7 +201,7 @@ body {
     font-size: 1em;
 }
 
-.exterior-resume-display {
+.outside-resume-display {
     position: absolute;
     width: 50%;
     height: 60px;
@@ -150,9 +212,9 @@ body {
     opacity: 0.75;
 }
 
-.exterior.temperature {
+.outside.temperature {
     float: left;
-    width:20%;
+    width: 20%;
     font-size: 2em;
     font-family: "Open Sans Condensed Light";
     line-height: 2em;
@@ -162,7 +224,7 @@ body {
     color: white;
 }
 
-.exterior.pressure {
+.outside.pressure {
     float: left;
     font-size: 2em;
     font-family: "Open Sans Condensed Light";
@@ -172,7 +234,7 @@ body {
     color: white;
 }
 
-.exterior.separator {
+.outside.separator {
     float: left;
     width: 10px;
     height: 30px;
@@ -253,6 +315,7 @@ body {
 .setup-screen p.lead {
     font-size: 3em;
     color: #FFFFFF;
+    margin-bottom: 0;
 }
 
 .setup-screen p span.muted {
@@ -260,13 +323,21 @@ body {
     font-size: 0.4em;
 }
 
+.setup-screen .close-setup {
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+
 .target-temperature {
     color: #FFFFFF;
     font-size: 3em;
+    line-height: 3em;
+    height: 3em;
 }
 
 .target-temperature span {
-    font-size: 4em;
+    font-size: 3em;
 }
 
 .close-setup a {
@@ -278,8 +349,164 @@ body {
     position: relative;
     color: #FFFFFF;
     font-size: 3em;
+}
+
+.increase-temp i {
+    margin-top: .3em;
+}
+
+.decrease-temp i {
+    margin-top: .6em;
+}
+
+.setup-type {
+    margin-bottom: 1.5em;
     left: 50%;
-    margin-left: -20px;
+    margin-left: -190px;
+}
+
+.setup-type .btn {
+    background-color: transparent;
+    border: 1px solid #035A73;
+    color: #035A73;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.setup-type .btn.active,
+.setup-type .btn:active {
+    background-color: #035A73;
+    color: #FFFFFF;
+}
+
+.datetime-setup {
+    height: 164px;
+}
+
+.datetime-setup > div {
+    opacity: 0;
+}
+
+.datetime-setup > div.active {
+    opacity: 1;
+}
+
+.datetime-setup .day {
+    float: left;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.datetime-setup .day > label {
+    float: left;
+    color: #035A73;
+}
+
+.datetime-setup .day .hours {
+    width: 100%;
+    float: left;
+}
+
+.datetime-setup .day .hours .hour {
+    float: left;
+    width: 33px;
+    height: 80px;
+    margin-right: -1px;
+    border: 1px solid #6FC8E2;
+}
+
+.datetime-setup .day .hours .hour > label {
+    width: 100%;
+    text-align: center;
+    color: #035A73;
+    margin-top: 0.4em;
+}
+
+.datetime-setup .day .hours .hour .hour-half {
+    border-top: 1px solid #6FC8E2;
+}
+
+.datetime-setup .day .hours .hour .hour-half .half {
+    float: left;
+    width: 50%
+}
+
+.datetime-setup .day .hours .hour .hour-half .half input[type="checkbox"] {
+    display: none;
+}
+
+.datetime-setup .day .hours .hour .hour-half .half .button {
+    width: 100%;
+    height: 47px;
+
+}
+
+.datetime-setup .day .hours .hour .hour-half .half:first-child .button {
+    border-right: 1px solid #6FC8E2;
+}
+
+.datetime-setup .day .hours .hour .hour-half .half .button {
+    background-color: #2EB2D7;
+}
+
+.datetime-setup .day .hours .hour .hour-half .half .button.active {
+    background-color: #035A73;
+}
+
+.datetime-setup #everyday,
+.datetime-setup #weekday_weekend,
+.datetime-setup #each_weekday {
+    margin-top: 20px;
+}
+
+.datetime-setup .nav-tabs {
+    border-color: #035A73;
+}
+
+.datetime-setup #everyday li a,
+.datetime-setup #weekday_weekend li a,
+.datetime-setup #each_weekday li a {
+    border-radius: 0;
+    background-color: transparent;
+    color: #035A73;
+    border-color: transparent;
+    padding: 6px 15px;
+}
+
+.datetime-setup #everyday li.active a,
+.datetime-setup #weekday_weekend li.active a,
+.datetime-setup #each_weekday li.active a {
+    background-color: #035A73;
+    border-color: #035A73;
+    color: #FFFFFF;
+}
+
+.datetime-setup #everyday .tab-content,
+.datetime-setup #weekday_weekend .tab-content,
+.datetime-setup #each_weekday .tab-content {
+    margin-top: 10px;
+}
+
+.legend .comfort_mode,
+.legend .reduce_mode {
+    width: 15px;
+    height: 25px;
+    float: left;
+    margin-right: 10px;
+}
+
+.legend span {
+    line-height: 2em;
+}
+
+.legend .comfort_mode {
+    /*border: 1px solid #6FC8E2;*/
+    background-color: #035A73;
+}
+
+.legend .reduce_mode {
+    /*border: 1px solid #6FC8E2;*/
+    background-color: #2EB2D7;
 }
 
 .validAction {
