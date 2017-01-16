@@ -38,7 +38,7 @@ if ($_GET['action'] == 'getTemperatureSettings') {
 }
 
 if ($_GET['action'] == 'getSensorHistory') {
-    echo json_encode( getSensorHistory( $_GET['sensor'] ) );
+    echo json_encode( getSensorHistory( $_GET['sensor'], $_GET['t'], $_GET['p'], $_GET['h'] ) );
 }
 
 
@@ -167,52 +167,114 @@ function getDateOfLastRecordedData( $sensor )
     return $result;
 }
 
-function getSensorHistory( $sensor )
+function getSensorHistory( $sensor, $temperature = false, $pressure = false, $humidity = false )
 {
     $mysqli = connectDB();
 
+    /*
+     * Les dernières 24 heures
+     *
+     * SELECT `value`,DATE_FORMAT(`recordTime`,'%d.%m-%h:%i') FROM `sensors` WHERE `recordTime` BETWEEN NOW() - INTERVAL 24 HOUR AND NOW() AND `type` = 'temperature' AND `location` = 'exterior'
+     */
+
+    /*
+     * La dernière heure
+     *
+     *SELECT `value`,DATE_FORMAT(`recordTime`,'%h') FROM `sensors` WHERE `recordTime` BETWEEN NOW() - INTERVAL 1 HOUR AND NOW() AND `type` = 'temperature' AND `location` = 'exterior'
+     */
+
+    /*
+     * Les dernières 48 heures / heure
+     *
+     * SELECT AVG(`value`),DATE_FORMAT(`recordTime`,'%d.%m-%H') FROM `sensors` WHERE `recordTime` BETWEEN NOW() - INTERVAL 48 HOUR AND NOW() AND `type` = 'temperature' AND `location` = 'exterior' GROUP BY DATE_FORMAT(`recordTime`,'%d;%m-%H')
+     */
 
     // TEMPERATURE
-    $res = $mysqli->query( "SELECT TIME_FORMAT(`recordTime`,'%H:%i') FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,24" );
-    $row = $res->fetch_all( MYSQLI_NUM );
-    $tempArray = array();
-    foreach ($row as $key => $value) {
-        $tempArray[] = implode( "", $value );
-    }
-    $result['temperature']['labels'] = array_reverse( $tempArray );
+    if ($temperature == 'true') {
+//    $res = $mysqli->query( "SELECT TIME_FORMAT(`recordTime`,'%H:%i') FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,24" );
+        $res = $mysqli->query( "SELECT DATE_FORMAT(`recordTime`,'%H') FROM `sensors` WHERE `recordTime` BETWEEN NOW() - INTERVAL 48 HOUR AND NOW() AND `type` = 'temperature' AND `location` = '$sensor' GROUP BY DATE_FORMAT(`recordTime`,'%d;%m-%H')" );
+        $row = $res->fetch_all( MYSQLI_NUM );
+        $tempArray = array();
+        foreach ($row as $key => $value) {
+            $val = implode( "", $value );
+            if ($val % 2 == 0) { //even only
+                $tempArray[] = $val . "h";
+            } else {
+                $tempArray[] = '';
+            }
+        }
+//    $result['temperature']['labels'] = array_reverse( $tempArray );
+        $result['temperature']['labels'] = $tempArray;
 
-    $res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,24" );
-    $row = $res->fetch_all( MYSQLI_NUM );
-    $tempArray = array();
-    foreach ($row as $key => $value) {
-        $tempArray[] = implode( "", $value );
+//    $res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,24" );
+        $res = $mysqli->query( "SELECT AVG(`value`) FROM `sensors` WHERE `recordTime` BETWEEN NOW() - INTERVAL 48 HOUR AND NOW() AND `type` = 'temperature' AND `location` = '$sensor' GROUP BY DATE_FORMAT(`recordTime`,'%d;%m-%H')" );
+        $row = $res->fetch_all( MYSQLI_NUM );
+        $tempArray = array();
+        foreach ($row as $key => $value) {
+            $tempArray[] = implode( "", $value );
+        }
+//    $result['temperature']['series'] = array( array_reverse( $tempArray ) );
+        $result['temperature']['series'] = array( $tempArray );
     }
-    $result['temperature']['series'] = array( array_reverse( $tempArray ) );
 
 
     // HUMIDITY
-//    $res = $mysqli->query( "SELECT `recordTime`,`value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'humidity' ORDER BY `recordTime` DESC LIMIT 0,144" );
-//    $row = $res->fetch_all( MYSQLI_ASSOC );
-//    $result['humidity'] = $row;
+    if ($humidity == 'true') {
+        $res = $mysqli->query( "SELECT DATE_FORMAT(`recordTime`,'%H') FROM `sensors` WHERE `recordTime` BETWEEN NOW() - INTERVAL 48 HOUR AND NOW() AND `type` = 'humidity' AND `location` = '$sensor' GROUP BY DATE_FORMAT(`recordTime`,'%d;%m-%H')" );
+        $row = $res->fetch_all( MYSQLI_NUM );
+        $tempArray = array();
+        foreach ($row as $key => $value) {
+            $val = implode( "", $value );
+            if ($val % 2 == 0) { //even only
+                $tempArray[] = $val . "h";
+            } else {
+                $tempArray[] = '';
+            }
+        }
+//    $result['humidity']['labels'] = array_reverse( $tempArray );
+        $result['humidity']['labels'] = $tempArray;
+
+//    $res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'humidity' AND `value` > 0 ORDER BY `recordTime` DESC LIMIT 0,24" );
+        $res = $mysqli->query( "SELECT AVG(`value`) FROM `sensors` WHERE `recordTime` BETWEEN NOW() - INTERVAL 48 HOUR AND NOW() AND `type` = 'humidity' AND `location` = '$sensor' GROUP BY DATE_FORMAT(`recordTime`,'%d;%m-%H')" );
+        $row = $res->fetch_all( MYSQLI_NUM );
+        $tempArray = array();
+        foreach ($row as $key => $value) {
+            $val = implode( "", $value );
+            $tempArray[] = $val;
+        }
+//    $result['humidity']['series'] = array( array_reverse( $tempArray ) );
+        $result['humidity']['series'] = array( $tempArray );
+    }
 
 
     // PRESSURE
-    $res = $mysqli->query( "SELECT TIME_FORMAT(`recordTime`,'%H:%i') FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'pressure' AND `value` > 0 ORDER BY `recordTime` DESC LIMIT 0,24" );
-    $row = $res->fetch_all( MYSQLI_NUM );
-    $tempArray = array();
-    foreach ($row as $key => $value) {
-        $tempArray[] = implode( "", $value );
-    }
-    $result['pressure']['labels'] = array_reverse( $tempArray );
+    if ($pressure == 'true') {
+//    $res = $mysqli->query( "SELECT TIME_FORMAT(`recordTime`,'%H:%i') FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'pressure' AND `value` > 0 ORDER BY `recordTime` DESC LIMIT 0,24" );
+        $res = $mysqli->query( "SELECT DATE_FORMAT(`recordTime`,'%H') FROM `sensors` WHERE `recordTime` BETWEEN NOW() - INTERVAL 48 HOUR AND NOW() AND `type` = 'pressure' AND `location` = '$sensor' GROUP BY DATE_FORMAT(`recordTime`,'%d;%m-%H')" );
+        $row = $res->fetch_all( MYSQLI_NUM );
+        $tempArray = array();
+        foreach ($row as $key => $value) {
+            $val = implode( "", $value );
+            if ($val % 2 == 0) { //even only
+                $tempArray[] = $val . "h";
+            } else {
+                $tempArray[] = '';
+            }
+        }
+//    $result['pressure']['labels'] = array_reverse( $tempArray );
+        $result['pressure']['labels'] = $tempArray;
 
-    $res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'pressure' AND `value` > 0 ORDER BY `recordTime` DESC LIMIT 0,24" );
-    $row = $res->fetch_all( MYSQLI_NUM );
-    $tempArray = array();
-    foreach ($row as $key => $value) {
-        $val = implode( "", $value );
-        $tempArray[] = $val;
+//    $res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'pressure' AND `value` > 0 ORDER BY `recordTime` DESC LIMIT 0,24" );
+        $res = $mysqli->query( "SELECT AVG(`value`) FROM `sensors` WHERE `recordTime` BETWEEN NOW() - INTERVAL 48 HOUR AND NOW() AND `type` = 'pressure' AND `location` = '$sensor' GROUP BY DATE_FORMAT(`recordTime`,'%d;%m-%H')" );
+        $row = $res->fetch_all( MYSQLI_NUM );
+        $tempArray = array();
+        foreach ($row as $key => $value) {
+            $val = implode( "", $value );
+            $tempArray[] = $val;
+        }
+//    $result['pressure']['series'] = array( array_reverse( $tempArray ) );
+        $result['pressure']['series'] = array( $tempArray );
     }
-    $result['pressure']['series'] = array( array_reverse( $tempArray ) );
 
     return $result;
 

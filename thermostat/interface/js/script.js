@@ -11,6 +11,7 @@ $(document).ready(function () {
     getDateOfLastRecordedData('living-room');
 
     $('.outside-screen').hide();
+    $('.inside-screen').hide();
     $('.setup-screen').hide();
 
     getSensor('living-room');
@@ -299,7 +300,11 @@ function openOutsideScreen() {
     $('.outside-screen').slideLeftShow();
     $('.setup-button').hide();
 
-    getSensorHistory('exterior');
+    getSensorHistory('exterior', true, true, false);
+
+    setTimeout(function () {
+        closeOutsideScreen();
+    }, 20000);
 }
 
 
@@ -310,19 +315,45 @@ function closeOutsideScreen() {
 }
 
 
-function getSensorHistory(location) {
+function openInsideScreen() {
+    $('.dashboard').slideRightHide();
+    $('.inside-screen').slideLeftShow();
+    $('.setup-button').hide();
+
+    getSensorHistory('living-room', true, false, true);
+
+    // setTimeout(function () {
+    //     closeInsideScreen();
+    // }, 20000);
+}
+
+
+function closeInsideScreen() {
+    $('.dashboard').slideRightShow();
+    $('.inside-screen').slideLeftHide();
+    $('.setup-button').show();
+}
+
+
+function getSensorHistory(location, t, p, h) {
 
 
     $.getJSON('treatment.php', {
         action: 'getSensorHistory',
-        sensor: location
+        sensor: location,
+        t: t,
+        p: p,
+        h: h
     }).done(function (json) {
 
         if (location === 'exterior') {
             location = 'outside';
+        } else {
+            location = 'inside';
         }
 
-        if (json.temperature) {
+
+        if (json.temperature && t) {
 
 
             var options = {
@@ -334,6 +365,11 @@ function getSensorHistory(location) {
                 lineSmooth: Chartist.Interpolation.cardinal({
                     fillHoles: true
                 })
+                // ,plugins: [
+                //     Chartist.plugins.ctThreshold({
+                //         threshold: 1
+                //     })
+                // ]
             };
 
 
@@ -357,7 +393,7 @@ function getSensorHistory(location) {
 
             });
         }
-        if (json.pressure) {
+        if (json.pressure && p) {
 
 
             var options = {
@@ -395,28 +431,44 @@ function getSensorHistory(location) {
 
             });
         }
-
-        //
-        // if (json.humidity) {
-        //
-        // }
-        //
-        // if (json.pressure) {
-        // var data_pressure = {
-        //     labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-        //     series: [
-        //         [20, 19, 18, 17, 16, 15, 15, 14, 16, 18, 20, 22]
-        //     ]
-        // };
-        //     new Chartist.Line('#chart-' + location + '-pressure', data_pressure, options);
-        // }
-
-        // console.log(json.temperature);
-        // console.log(json.humidity);
-        // console.log(json.pressure);
-        // console.log(data_pressure);
+        if (json.humidity && h) {
 
 
+            var options = {
+                width: '99%',
+                height: '200px',
+                high: 100,
+                low: 0,
+                showArea: true,
+                showPoint: false,
+                fullWidth: true,
+                lineSmooth: Chartist.Interpolation.cardinal({
+                    fillHoles: true
+                })
+            };
+
+
+            var data_humidity = json.humidity;
+
+            var chart = new Chartist.Line('#chart-' + location + '-humidity', data_humidity, options);
+            chart.on('draw', function (data) {
+
+                if (data.type === 'line' || data.type === 'area') {
+
+                    data.element.animate({
+                        d: {
+                            begin: 4000 * data.index,
+                            dur: 4000,
+                            from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
+                            to: data.path.clone().stringify(),
+                            easing: Chartist.Svg.Easing.easeOutQuint
+                        }
+                    });
+
+                }
+
+            });
+        }
     });
 }
 

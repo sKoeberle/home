@@ -29,11 +29,13 @@ body {
     width: 100%;
 }
 
-.container .outside-screen {
+.container .outside-screen,
+.container .inside-screen {
     height: 100%;
 }
 
-.outside-button {
+.outside-button,
+.inside-button {
     position: absolute;
     width: 46px;
     height: 46px;
@@ -42,37 +44,44 @@ body {
     background-color: transparent;
 }
 
-.outside-button i {
+.outside-button i,
+.inside-button i {
     color: #035A73;
     font-size: 40px
 }
 
-.outside-screen i {
+.outside-screen i,
+.inside-screen i {
     color: #FFFFFF;
 }
 
-.outside-screen p.lead {
+.outside-screen p.lead,
+.inside-screen p.lead {
     font-size: 3em;
     color: #FFFFFF;
     margin-bottom: 0;
 }
 
-.outside-screen p span.muted {
+.outside-screen p span.muted,
+.inside-screen p span.muted {
     color: #035A73;
     font-size: 0.4em;
 }
 
-.outside-screen .lead {
+.outside-screen .lead,
+.inside-screen .lead {
     /*line-height: 2em;*/
 }
 
-.outside-screen .close-outside-screen {
+.outside-screen .close-outside-screen,
+.inside-screen .close-inside-screen {
     position: absolute;
     right: 10px;
     top: 0;
 }
 
-.outside-screen .close-outside-screen i {
+.outside-screen .close-outside-screen i,
+.inside-screen .close-inside-screen i {
     color: #FFFFFF;
     margin-top: 8px;
     font-size: 40px;
@@ -83,25 +92,56 @@ body {
     display: inline-block;
 }
 
-.outside-screen .ct-series-a .ct-area, .outside-screen .ct-series-a .ct-slice-pie {
-    fill: #fff;
+.inside-screen .ct-chart {
+    height: 210px;
+    display: inline-block;
 }
 
-.outside-screen .ct-line {
+.outside-screen .ct-series-a .ct-area, .outside-screen .ct-series-a .ct-slice-pie,
+.inside-screen .ct-series-a .ct-area, .inside-screen .ct-series-a .ct-slice-pie {
+    fill: #FFFFFF;
+}
+
+.outside-screen .ct-line,
+.inside-screen .ct-line {
     stroke: white;
 }
 
-.outside-screen .ct-label {
+.outside-screen .ct-bar,
+.inside-screen .ct-bar {
+    stroke: white;
+}
+
+/*.outside-screen .ct-line.ct-threshold-below, .outside-screen .ct-point.ct-threshold-below, .outside-screen .ct-bar.ct-threshold-below {*/
+/*stroke: #5500FF;*/
+/*}*/
+
+/*.outside-screen .ct-line.ct-threshold-above, .outside-screen .ct-point.ct-threshold-above, .outside-screen .ct-bar.ct-threshold-above {*/
+/*stroke: #FFFFFF;*/
+/*}*/
+
+/*.outside-screen .ct-area.ct-threshold-below {*/
+/*fill: #5500FF;*/
+/*}*/
+
+/*.outside-screen .ct-area.ct-threshold-above {*/
+/*fill: #FFFFFF;*/
+/*}*/
+
+.outside-screen .ct-label,
+.inside-screen .ct-label {
     font-size: .95em;
     font-weight: bold;
     margin-top: 4px;
 }
 
-.outside-screen .ct-label.ct-horizontal {
+.outside-screen .ct-label.ct-horizontal,
+.inside-screen .ct-label.ct-horizontal {
     margin-left: -13px;
 }
 
-.outside-screen .chart-outside-temperature-label {
+.outside-screen .chart-outside-temperature-label,
+.inside-screen .chart-inside-temperature-label {
     position: absolute;
     top: 29%;
     left: 39%;
@@ -110,7 +150,8 @@ body {
     opacity: 0.35;
 }
 
-.outside-screen .chart-outside-pressure-label {
+.outside-screen .chart-outside-pressure-label,
+.inside-screen .chart-inside-humidity-label {
     position: absolute;
     top: 72%;
     left: 43%;

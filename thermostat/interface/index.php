@@ -17,6 +17,7 @@
     <script src="../../vendor/sprintf/sprintf.min.js"></script>
     <script src="../../vendor/rangeslider.js-2.3.0/rangeslider.js"></script>
     <script src="../../vendor/chartist/chartist.min.js"></script>
+    <script src="../../vendor/chartist/chartist-plugin-threshold.min.js"></script>
     <script src="js/script.js"></script>
 
 </head>
@@ -31,6 +32,18 @@
             <p class="chart-outside-pressure-label">Pressure</p>
         </div>
         <div class="close-outside-screen" onclick="closeOutsideScreen();">
+            <i class="glyphicon glyphicon-remove"></i>
+        </div>
+    </div>
+    <div class="row inside-screen">
+        <div class="col-xs-12 col-md-12">
+            <p class="lead text-left">Inside history</p>
+            <div class="ct-chart ct-perfect-fourth" id="chart-inside-temperature"></div>
+            <p class="chart-inside-temperature-label">Temperature</p>
+            <div class="ct-chart ct-perfect-fourth" id="chart-inside-humidity"></div>
+            <p class="chart-inside-humidity-label">Humidity</p>
+        </div>
+        <div class="close-inside-screen" onclick="closeInsideScreen();">
             <i class="glyphicon glyphicon-remove"></i>
         </div>
     </div>
@@ -50,7 +63,7 @@
             <h2 class="time"><?php echo $date->format( "H:i" ); ?></h2>
             <h3 class="date ui-btn"><?php echo strtoupper( $date->format( "l, M j" ) ); ?></h3>
         </div>
-        <div class="col-xs-6 col-md-6 home-values">
+        <div class="col-xs-6 col-md-6 home-values" onclick="openInsideScreen();">
             <div class="living-room temperature"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">°C</span></p></div>
             <div class="living-room humidity"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">%</span></p></div>
         </div>
