@@ -27,9 +27,9 @@
         <div class="col-xs-12 col-md-12">
             <p class="lead text-left">Outside history</p>
             <div class="ct-chart ct-perfect-fourth" id="chart-outside-temperature"></div>
-            <p class="chart-outside-temperature-label">Temperature</p>
+            <p class="chart-outside-temperature-label">Temperature (°C)</p>
             <div class="ct-chart ct-perfect-fourth" id="chart-outside-pressure"></div>
-            <p class="chart-outside-pressure-label">Pressure</p>
+            <p class="chart-outside-pressure-label">Pressure (hPa)</p>
         </div>
         <div class="close-outside-screen" onclick="closeOutsideScreen();">
             <i class="glyphicon glyphicon-remove"></i>
@@ -39,9 +39,9 @@
         <div class="col-xs-12 col-md-12">
             <p class="lead text-left">Inside history</p>
             <div class="ct-chart ct-perfect-fourth" id="chart-inside-temperature"></div>
-            <p class="chart-inside-temperature-label">Temperature</p>
+            <p class="chart-inside-temperature-label">Temperature (°C)</p>
             <div class="ct-chart ct-perfect-fourth" id="chart-inside-humidity"></div>
-            <p class="chart-inside-humidity-label">Humidity</p>
+            <p class="chart-inside-humidity-label">Humidity (%)</p>
         </div>
         <div class="close-inside-screen" onclick="closeInsideScreen();">
             <i class="glyphicon glyphicon-remove"></i>

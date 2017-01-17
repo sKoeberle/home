@@ -322,9 +322,9 @@ function openInsideScreen() {
 
     getSensorHistory('living-room', true, false, true);
 
-    // setTimeout(function () {
-    //     closeInsideScreen();
-    // }, 20000);
+    setTimeout(function () {
+        closeInsideScreen();
+    }, 20000);
 }
 
 
