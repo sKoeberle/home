@@ -32,6 +32,7 @@ body {
 .container .outside-screen,
 .container .inside-screen {
     height: 100%;
+    z-index: 1;
 }
 
 .outside-button,
@@ -162,6 +163,7 @@ body {
 
 .container .dashboard {
     height: 100%;
+    z-index:3;
 }
 
 .container .dashboard .date-time {
@@ -283,9 +285,9 @@ body {
     margin-top: 14px;
 }
 
-.ambiance-mode {
+.state {
     position: absolute;
-    width: 150px;
+    width: 50%;
     height: 60px;
     top: 0px;
     right: 0px;
@@ -293,10 +295,10 @@ body {
     z-index: 2;
 }
 
-.ambiance-mode .auto {
+.state .ambiance-mode .auto {
     float: right;
     width: 80px;
-    height: 100px;
+    height: 100%;
     font-size: 3em;
     font-family: "Open Sans Condensed Light";
     font-style: normal;
@@ -305,7 +307,7 @@ body {
     color: white;
 }
 
-.ambiance-mode .sun {
+.state .ambiance-mode .sun {
     float: right;
     display: block;
     width: 50px;
@@ -317,7 +319,7 @@ body {
     background-size: 40px;
 }
 
-.ambiance-mode .cold {
+.state .ambiance-mode .cold {
     float: right;
     display: block;
     width: 50px;
@@ -327,6 +329,34 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-size: 40px;
+}
+
+.state .sensor .sensor-status {
+    float: right;
+    display: block;
+    width: 50px;
+    height: 60px;
+    opacity: 1;
+    background: url('../images/sensor.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40px;
+}
+
+.state .sensor .sensor-status.inactive {
+    animation: sensorInactive 1s infinite;
+}
+
+@keyframes sensorInactive {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .setup-button {
@@ -339,8 +369,9 @@ body {
 }
 
 .setup-button i {
-    color: #035A73;
-    font-size: 40px
+    color: #FFFFFF;
+    font-size: 40px;
+    opacity: 0.5;
 }
 
 .setup-screen i {

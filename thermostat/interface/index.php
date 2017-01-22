@@ -53,10 +53,15 @@
             <div class="outside separator"></div>
             <div class="outside pressure"><p><span class="unity">0000</span><span class="unit">hPa</span></p></div>
         </div>
-        <div class="ambiance-mode">
-            <i class="auto">AUTO</i>
-            <i class="sun"></i>
-            <i class="cold"></i>
+        <div class="state">
+            <div class="ambiance-mode">
+                <i class="auto">AUTO</i>
+                <i class="sun"></i>
+                <i class="cold"></i>
+            </div>
+            <div class="sensor">
+                <i class="sensor-status"></i>
+            </div>
         </div>
         <div class="col-xs-6 col-md-6 date-time">
             <?php $date = new DateTime(); ?>

@@ -8,11 +8,11 @@ var write;
 
 $(document).ready(function () {
 
-    getDateOfLastRecordedData('living-room');
-
     $('.outside-screen').hide();
     $('.inside-screen').hide();
     $('.setup-screen').hide();
+
+    getDateOfLastRecordedData('living-room');
 
     getSensor('living-room');
     getSensor('exterior');
@@ -52,10 +52,9 @@ function getDateOfLastRecordedData(location) {
 
         // calculate difference and verify
         if (t - d > quarter) {
-            var color = 'rgb(255,200, 0)';
-            $('.unity').css('color', color);
-            $('.dot').css('color', color);
-            $('.float').css('color', color);
+            $('.sensor-status').addClass('inactive');
+        } else {
+            $('.sensor-status').removeClass('inactive');
         }
     });
 }
@@ -109,6 +108,7 @@ function getSensor(location) {
 
 }
 
+
 function getAmbianceMode() {
 
     $.getJSON('treatment.php', {
@@ -122,6 +122,7 @@ function getAmbianceMode() {
     });
 
 }
+
 
 function getCurrentAmbianceMode() {
 
@@ -309,7 +310,7 @@ function openOutsideScreen() {
 
 
 function closeOutsideScreen() {
-    $('.dashboard').slideRightShow();
+    $('.dashboard').show();
     $('.outside-screen').slideLeftHide();
     $('.setup-button').show();
 }
@@ -329,7 +330,7 @@ function openInsideScreen() {
 
 
 function closeInsideScreen() {
-    $('.dashboard').slideRightShow();
+    $('.dashboard').show();
     $('.inside-screen').slideLeftHide();
     $('.setup-button').show();
 }
@@ -472,26 +473,27 @@ function getSensorHistory(location, t, p, h) {
     });
 }
 
+
 jQuery.fn.extend({
 
     slideRightShow: function () {
         return this.each(function () {
-            $(this).show('slide', {direction: 'right'}, 1000);
+            $(this).show('slide', {direction: 'right'}, 500);
         });
     },
     slideLeftHide: function () {
         return this.each(function () {
-            $(this).hide('slide', {direction: 'left'}, 1000);
+            $(this).hide('slide', {direction: 'left'}, 500);
         });
     },
     slideRightHide: function () {
         return this.each(function () {
-            $(this).hide('slide', {direction: 'right'}, 1000);
+            $(this).hide('slide', {direction: 'right'}, 500);
         });
     },
     slideLeftShow: function () {
         return this.each(function () {
-            $(this).show('slide', {direction: 'left'}, 1000);
+            $(this).show('slide', {direction: 'left'}, 500);
         });
     }
 
