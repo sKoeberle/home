@@ -151,9 +151,12 @@ function setup() {
     $('.dashboard').slideLeftHide();
 
     readTargetTemperature();
-
+    getDailyProgrammingMode();
+    getProgram();
     initDatetimeSetup();
 
+    dailyProgrammingMode();
+    setProgram();
 }
 
 
@@ -470,6 +473,91 @@ function getSensorHistory(location, t, p, h) {
 
             });
         }
+    });
+}
+
+
+function dailyProgrammingMode() {
+
+    $('.dailyProgrammingMode input').on('change', function (event) {
+        var mode = $(event)[0].currentTarget.id;
+
+        $.getJSON('treatment.php', {
+            action: 'setDailyProgrammingMode',
+            mode: mode
+        }).done(function (json) {
+            // console.log(json);
+        });
+
+    });
+}
+
+
+function getDailyProgrammingMode() {
+
+    $.getJSON('treatment.php', {
+        action: 'getDailyProgrammingMode'
+    }).done(function (json) {
+        $('#' + json).click();
+    });
+
+}
+
+
+function getProgram() {
+
+    $.getJSON('treatment.php', {
+        action: 'getProgram'
+    }).done(function (json) {
+
+        $(json).each(function (key, object) {
+
+            var prefix = object.day;
+            $.each(object, function (index, value) {
+
+                if (index != 'day') {
+                    if (value == 1) {
+                        $('input[name="' + prefix + '_' + index + '"]').parent().addClass('active');
+                        $('input[name="' + prefix + '_' + index + '"]').attr('checked', true);
+                    } else {
+                        $('input[name="' + prefix + '_' + index + '"]').parent().removeClass('active');
+                        $('input[name="' + prefix + '_' + index + '"]').attr('checked', false);
+                    }
+                }
+
+            });
+        });
+    });
+
+}
+
+
+function setProgram() {
+
+
+    $('.datetime-setup label.button').on('click', function (event) {
+
+        var array = $(this).find('input')[0].name.split('_');
+        var name = array[0];
+        var position = array[1];
+        var value = $(this).hasClass('active');
+        if (value == true) {
+            value = 1;
+        } else {
+            value = 0;
+        }
+
+        console.log(name, position, value);
+
+        $.getJSON('treatment.php', {
+            action: 'setProgram',
+            name: name,
+            position: position,
+            value: value
+        }).done(function (json) {
+            console.log(json);
+        });
+
     });
 }
 

@@ -525,9 +525,9 @@ body {
     background-color: #035A73;
 }
 
-.datetime-setup #everyday,
-.datetime-setup #weekday_weekend,
-.datetime-setup #each_weekday {
+.datetime-setup #everydays,
+.datetime-setup #weekdays,
+.datetime-setup #eachdays {
     margin-top: 20px;
 }
 
@@ -535,9 +535,9 @@ body {
     border-color: #035A73;
 }
 
-.datetime-setup #everyday li a,
-.datetime-setup #weekday_weekend li a,
-.datetime-setup #each_weekday li a {
+.datetime-setup #everydays li a,
+.datetime-setup #weekdays li a,
+.datetime-setup #eachdays li a {
     border-radius: 0;
     background-color: transparent;
     color: #035A73;
@@ -545,17 +545,17 @@ body {
     padding: 6px 15px;
 }
 
-.datetime-setup #everyday li.active a,
-.datetime-setup #weekday_weekend li.active a,
-.datetime-setup #each_weekday li.active a {
+.datetime-setup #everydays li.active a,
+.datetime-setup #weekdays li.active a,
+.datetime-setup #eachdays li.active a {
     background-color: #035A73;
     border-color: #035A73;
     color: #FFFFFF;
 }
 
-.datetime-setup #everyday .tab-content,
-.datetime-setup #weekday_weekend .tab-content,
-.datetime-setup #each_weekday .tab-content {
+.datetime-setup #everydays .tab-content,
+.datetime-setup #weekdays .tab-content,
+.datetime-setup #eachdays .tab-content {
     margin-top: 10px;
 }
 

@@ -65,8 +65,8 @@
         </div>
         <div class="col-xs-6 col-md-6 date-time">
             <?php $date = new DateTime(); ?>
-            <h2 class="time"><?php echo $date->format( "H:i" ); ?></h2>
-            <h3 class="date ui-btn"><?php echo strtoupper( $date->format( "l, M j" ) ); ?></h3>
+            <h2 class="time"><?php echo $date->format("H:i"); ?></h2>
+            <h3 class="date ui-btn"><?php echo strtoupper($date->format("l, M j")); ?></h3>
         </div>
         <div class="col-xs-6 col-md-6 home-values" onclick="openInsideScreen();">
             <div class="living-room temperature"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">°C</span></p></div>
@@ -92,28 +92,28 @@
         </div>
         <div class="col-xs-4 col-md-4"></div>
 
-        <div class="col-xs-12 col-md-12 setup-type">
+        <div class="col-xs-12 col-md-12 setup-type dailyProgrammingMode">
             <div class="btn-group" data-toggle="buttons">
                 <label class="btn ui-btn active">
-                    <input type="radio" name="options" value="everyday" autocomplete="off" checked> Identical everyday
+                    <input type="radio" name="dailyProgrammingMode" id="everyday" value="everydays" autocomplete="off" checked> Identical everyday
                 </label>
                 <label class="btn ui-btn">
-                    <input type="radio" name="options" value="weekday_weekend" autocomplete="off"> Weekdays & weekend
+                    <input type="radio" name="dailyProgrammingMode" id="weekday" value="weekdays" autocomplete="off"> Weekdays & weekend
                 </label>
                 <label class="btn ui-btn">
-                    <input type="radio" name="options" value="each_weekday" autocomplete="off"> Each weekday
+                    <input type="radio" name="dailyProgrammingMode" id="eachday" value="eachdays" autocomplete="off"> Each weekday
                 </label>
             </div>
         </div>
         <div class="col-xs-12 col-md-12 datetime-setup">
-            <div id="everyday" class="active">
+            <div id="everydays" class="active">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="everydays" class="active">
-                        <a class="ui-btn" href="#everydays" aria-controls="everydays" role="tab" data-toggle="tab">Every day is identical</a>
+                    <li role="everydayss" class="active">
+                        <a class="ui-btn" href="#everydayss" aria-controls="everydayss" role="tab" data-toggle="tab">Every day is identical</a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="day tab-pane active" role="tabpanel" id="everydays">
+                    <div class="day tab-pane active" role="tabpanel" id="everydayss">
                         <div class="hours">
                             <?php for ($h = 0; $h <= 23; $h++): ?>
                                 <div class="hour">
@@ -123,7 +123,11 @@
                                         <?php for ($m = 0; $m <= 30; $m += 30): ?>
                                             <div class="half">
                                                 <label class="button ui-btn">
-                                                    <input type="checkbox" name="<?php echo "{$h}_{$m}"; ?>">
+                                                    <?php if ($m == 0): ?>
+                                                        <input type="checkbox" name="<?php echo "all_{$h}"; ?>">
+                                                    <?php else: ?>
+                                                        <input type="checkbox" name="<?php echo "all_{$h}.{$m}"; ?>">
+                                                    <?php endif ?>
                                                 </label>
                                             </div>
                                         <?php endfor ?>
@@ -134,18 +138,18 @@
                     </div>
                 </div>
             </div>
-            <div id="weekday_weekend">
+            <div id="weekdays">
 
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="Weekdays" class="active">
-                        <a class="ui-btn" href="#Weekdays" aria-controls="Weekdays" role="tab" data-toggle="tab">Weekdays</a>
+                    <li role="weekdayss" class="active">
+                        <a class="ui-btn" href="#weekdayss" aria-controls="weekdayss" role="tab" data-toggle="tab">Weekdays</a>
                     </li>
-                    <li role="Weekend" class="">
-                        <a class="ui-btn" href="#Weekend" aria-controls="Weekend" role="tab" data-toggle="tab">Weekend</a>
+                    <li role="weekends" class="">
+                        <a class="ui-btn" href="#weekends" aria-controls="weekends" role="tab" data-toggle="tab">Weekend</a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="day tab-pane active" role="tabpanel" id="weekday">
+                    <div class="day tab-pane active" role="tabpanel" id="weekdayss">
                         <div class="hours">
                             <?php for ($h = 0; $h <= 23; $h++): ?>
                                 <div class="hour">
@@ -155,7 +159,11 @@
                                         <?php for ($m = 0; $m <= 30; $m += 30): ?>
                                             <div class="half">
                                                 <label class="button ui-btn">
-                                                    <input type="checkbox" name="<?php echo "{$h}_{$m}"; ?>">
+                                                    <?php if ($m == 0): ?>
+                                                        <input type="checkbox" name="<?php echo "weekday_{$h}"; ?>">
+                                                    <?php else: ?>
+                                                        <input type="checkbox" name="<?php echo "weekday_{$h}.{$m}"; ?>">
+                                                    <?php endif ?>
                                                 </label>
                                             </div>
                                         <?php endfor ?>
@@ -164,7 +172,7 @@
                             <?php endfor ?>
                         </div>
                     </div>
-                    <div class="day tab-pane" role="tabpanel" id="weekend">
+                    <div class="day tab-pane" role="tabpanel" id="weekends">
                         <div class="hours">
                             <?php for ($h = 0; $h <= 23; $h++): ?>
                                 <div class="hour">
@@ -174,7 +182,11 @@
                                         <?php for ($m = 0; $m <= 30; $m += 30): ?>
                                             <div class="half">
                                                 <label class="button ui-btn">
-                                                    <input type="checkbox" name="<?php echo "{$h}_{$m}"; ?>">
+                                                    <?php if ($m == 0): ?>
+                                                        <input type="checkbox" name="<?php echo "weekend_{$h}"; ?>">
+                                                    <?php else: ?>
+                                                        <input type="checkbox" name="<?php echo "weekend_{$h}.{$m}"; ?>">
+                                                    <?php endif ?>
                                                 </label>
                                             </div>
                                         <?php endfor ?>
@@ -185,18 +197,18 @@
                     </div>
                 </div>
             </div>
-            <div id="each_weekday">
+            <div id="eachdays">
                 <ul class="nav nav-tabs" role="tablist">
-                    <?php $week_days = [ 1 => "Monday", 2 => "Tuesday", 3 => "Wednesday", 4 => "Friday", 5 => "Thursday", 6 => "Saturday", 7 => "Sunday" ]; ?>
+                    <?php $week_days = [1 => "Monday", 2 => "Tuesday", 3 => "Wednesday", 4 => "Friday", 5 => "Thursday", 6 => "Saturday", 7 => "Sunday"]; ?>
                     <?php foreach ($week_days as $day_num => $day_label): ?>
-                        <li role="<?php echo $day_label; ?>" class="<?php echo( $day_num == 1 ? 'active' : '' ); ?>">
+                        <li role="<?php echo $day_label; ?>" class="<?php echo($day_num == 1 ? 'active' : ''); ?>">
                             <a class="ui-btn" href="#<?php echo $day_label; ?>" aria-controls="<?php echo $day_label; ?>" role="tab" data-toggle="tab"><?php echo $day_label; ?></a>
                         </li>
                     <?php endforeach ?>
                 </ul>
                 <div class="tab-content">
                     <?php foreach ($week_days as $day_num => $day_label): ?>
-                        <div class="day tab-pane<?php echo( $day_num == 1 ? ' active' : '' ); ?>" role="tabpanel" id="<?php echo $day_label; ?>">
+                        <div class="day tab-pane<?php echo($day_num == 1 ? ' active' : ''); ?>" role="tabpanel" id="<?php echo $day_label; ?>">
                             <div class="hours">
                                 <?php for ($h = 0; $h <= 23; $h++): ?>
                                     <div class="hour">
@@ -206,7 +218,11 @@
                                             <?php for ($m = 0; $m <= 30; $m += 30): ?>
                                                 <div class="half">
                                                     <label class="button ui-btn">
-                                                        <input type="checkbox" name="<?php echo "{$h}_{$m}"; ?>">
+                                                        <?php if ($m == 0): ?>
+                                                            <input type="checkbox" name="<?php echo "{$day_num}_{$h}"; ?>">
+                                                        <?php else: ?>
+                                                            <input type="checkbox" name="<?php echo "{$day_num}_{$h}.{$m}"; ?>">
+                                                        <?php endif ?>
                                                     </label>
                                                 </div>
                                             <?php endfor ?>
