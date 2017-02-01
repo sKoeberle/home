@@ -9,8 +9,12 @@ import RPi.GPIO as GPIO
 
 # cgitb.enable()
 
-DEBUG = True
+DEBUG = False
 
+
+# Init
+def init():
+    global mode, ambiance_mode, target_temp, reduced_temp, current_temp, current_mode, temperature, daily_programming_mode
 
 
 # Init the GPIO
@@ -74,7 +78,6 @@ def valve(value):
 
 # Get the target temperature set by the user
 def get_target_temperature():
-    global temperature
     conn = mysql.connector.connect(host="192.168.1.251", user="home", password="2DsNEPnDHH93WT2y", database="home")
     cursor = conn.cursor()
     cursor.execute("""SELECT `temperature` FROM `target` ORDER BY `demand` DESC LIMIT 0,1""")
@@ -99,15 +102,15 @@ def get_current_temperature():
 
 
 # Get the current ambiance mode in database for display
-def get_ambiance_mode():
+def get_ambiance_mode(ambiance_mode):
     conn = mysql.connector.connect(host="192.168.1.251", user="home", password="2DsNEPnDHH93WT2y", database="home")
     cursor = conn.cursor()
     cursor.execute("""SELECT `value` FROM `general` WHERE `label` = 'ambiance_mode'""")
     for (val) in cursor:
-        mode = val[0]
+        ambiance_mode = val[0]
     cursor.close()
     conn.close()
-    return mode
+    return ambiance_mode
 
 
 # Get the current daily programming mode
@@ -116,6 +119,19 @@ def get_current_daily_programming_mode():
     cursor = conn.cursor()
     cursor.execute("""SELECT `value` FROM `general` WHERE `label` = 'dailyProgrammingMode'""")
     for (val) in cursor:
+        daily_programming_mode = val[0]
+    cursor.close()
+    conn.close()
+    return daily_programming_mode
+
+
+# Get the current daily programming mode
+def get_hour_mode(daily_programming_mode, hour):
+    conn = mysql.connector.connect(host="192.168.1.251", user="home", password="2DsNEPnDHH93WT2y", database="home")
+    cursor = conn.cursor()
+    # print "SELECT `%s` FROM `program` WHERE `day` = '%s'""" % (hour, daily_programming_mode)
+    cursor.execute("""SELECT `%s` FROM `program` WHERE `day` = '%s'""" % (hour, daily_programming_mode))
+    for val in cursor:
         daily_programming_mode = val[0]
     cursor.close()
     conn.close()
@@ -172,8 +188,8 @@ def sleeper(value):
 
 
 # Initialisation
+init()
 init_gpio()
-
 
 # Manage temperatures
 target_temp = get_target_temperature()
@@ -182,46 +198,69 @@ reduced_temp = target_temp - 3
 if reduced_temp < 17:
     reduced_temp = 17
 
-
 # Manage program
-ambiance_mode = get_ambiance_mode()
+ambiance_mode = get_ambiance_mode('auto')
+current_mode = ''
+daily_programming_mode = ''
 if ambiance_mode == 'auto':
     daily_programming_mode = get_current_daily_programming_mode()
+    day = time.strftime('%w')
+    hour = time.strftime('%H')
+    minute = time.strftime('%M')
+    t = int(hour)
+    if minute >= '30':
+        t = "%.2f" % float(time.strftime('%H') + '.30')
 
+    if daily_programming_mode == 'everyday':
+        current_mode = get_hour_mode('all', t)
+    elif daily_programming_mode == 'weekday':
+        if day == '0' or day == '6':
+            current_mode = get_hour_mode('weekend', t)
+        else:
+            current_mode = get_hour_mode('weekday', t)
+    elif daily_programming_mode == 'eachday':
+        if day == '0':
+            day = '1'
+        if day == '6':
+            day = '7'
+        current_mode = get_hour_mode(day, t)
 
 # Display current time
 print('\r')
 print('----------------------------')
-print time.strftime('It is %H:%M\r')
-print Color.BOLD
+print time.strftime('It is %A, %H:%M\n')
 print('Ambiance mode is set on %s' % ambiance_mode)
-print Color.END
+# print('Time is %s' % t)
+# print('Current boiler mode is %s' % current_mode)
+print('Daily programming mode is %s' % daily_programming_mode)
 # print('\n')
 
 
 # Manage ambiance mode
-if ambiance_mode == 'auto':
-    if time.strftime('%H') in ['23', '00', '01', '02', '03', '04', '05']:
-        print('The thermostat is in reduced mode')
-        print('The reduced temp is %s' % reduced_temp)
-        target_temp = reduced_temp
-        set_current_ambiance_mode('reduced')
-        if current_temp > target_temp:
-            circulator("off")
-        else:
-            circulator("on")
-            regulation(current_temp, target_temp)
-    else:
-        print('The thermostat is in comfort mode')
-        set_current_ambiance_mode('comfort')
-        circulator("on")
-        regulation(current_temp, target_temp)
-elif ambiance_mode == 'comfort':
+# if ambiance_mode == 'auto':
+#    if time.strftime('%H') in ['23', '00', '01', '02', '03', '04', '05']:
+#        print('The thermostat is in reduced mode')
+#        print('The reduced temp is %s' % reduced_temp)
+#        target_temp = reduced_temp
+#        set_current_ambiance_mode('reduced')
+#        if current_temp > target_temp:
+#            circulator("off")
+#        else:
+#            circulator("on")
+#            regulation(current_temp, target_temp)
+#    else:
+#        print('The thermostat is in comfort mode')
+#        set_current_ambiance_mode('comfort')
+#        circulator("on")
+#        regulation(current_temp, target_temp)
+# elif ambiance_mode == 'comfort':
+if current_mode == 1:
     print('The thermostat is in comfort mode')
     set_current_ambiance_mode('comfort')
     circulator("on")
     regulation(current_temp, target_temp)
-elif ambiance_mode == 'reduced':
+# elif ambiance_mode == 'reduced':
+else:
     print('The thermostat is in reduced mode')
     target_temp = reduced_temp
     set_current_ambiance_mode('reduced')
