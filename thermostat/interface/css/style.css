@@ -17,6 +17,8 @@ html {
     font-family: 'Open Sans Condensed Light', sans-serif;
     overflow: hidden;
     cursor: none;
+    width: 800px;
+    height: 480px;
 }
 
 body {
@@ -25,42 +27,58 @@ body {
     cursor: none;
 }
 
-.container {
+.container-fluid {
     width: 100%;
 }
 
-.container .outside-screen,
-.container .inside-screen {
-    height: 100%;
-    z-index: 1;
-}
-
-.outside-button,
-.inside-button {
+.container-fluid .outside-screen,
+.container-fluid .inside-screen {
     position: absolute;
-    width: 46px;
-    height: 46px;
-    top: 4px;
-    left: 4px;
-    background-color: transparent;
+    top: 50%;
+    left: 50%;
+    width: 720px;
+    height: 400px;
+    margin-left: -360px;
+    margin-top: -190px;
+    z-index: 10;
+    border: 4px solid white;
+    border-radius: 6px;
 }
 
-.outside-button i,
-.inside-button i {
-    color: #035A73;
-    font-size: 40px
+.outside-screen .close-button,
+.inside-screen .close-button {
+    position: absolute;
+    display: block;
+    top: -27px;
+    right: 62px;
+    height: 0;
+    width: 0;
+    z-index: 11;
 }
 
-.outside-screen i,
-.inside-screen i {
-    color: #FFFFFF;
+.outside-screen .close-button i,
+.inside-screen .close-button i {
+    color: white;
+    font-size: 28px;
+    border-radius: 6px;
+    /*box-shadow: 0 0 0px 6px #0785A9;*/
+    background-color: #0785A9;
+    border: 4px solid white;
+    padding: 5px;
 }
 
 .outside-screen p.lead,
 .inside-screen p.lead {
-    font-size: 3em;
+    font-size: 2em;
     color: #FFFFFF;
-    margin-bottom: 0;
+    margin-top: -26px;
+    background-color: #2EB2D7;
+    border-radius: 6px;
+    /*box-shadow: 0 0 10px 13px #2EB2D7;*/
+    width: 164px;
+    padding: 4px 8px 9px 8px;
+    border: 4px solid white;
+    line-height: 25px;
 }
 
 .outside-screen p span.muted,
@@ -89,12 +107,12 @@ body {
 }
 
 .outside-screen .ct-chart {
-    height: 210px;
+    height: 170px;
     display: inline-block;
 }
 
 .inside-screen .ct-chart {
-    height: 210px;
+    height: 170px;
     display: inline-block;
 }
 
@@ -161,67 +179,70 @@ body {
     opacity: 0.35;
 }
 
-.container .dashboard {
+.container-fluid .dashboard {
     height: 100%;
-    z-index:3;
+    z-index: 3;
 }
 
-.container .dashboard .date-time {
+.container-fluid .dashboard .date-time {
     background-color: #0CA7D2;
-    height: 100%;
+    /*height: 100%;*/
     margin-top: 8%;
 }
 
-.container .dashboard .date-time .time {
+.container-fluid .dashboard .date-time .time {
     color: #FFFFFF;
     font-size: 14em;
     text-align: center;
     margin-bottom: 0;
+    margin-top: 10%;
 }
 
-.container .dashboard .date-time .date {
+.container-fluid .dashboard .date-time .date {
     color: #035A73;
     text-transform: uppercase;
     font-size: 3.6em;
     text-align: center;
-    margin-top: 0;
+    margin-top: 5%;
 }
 
-.container .dashboard .home-values {
+.container-fluid .dashboard .home-values {
     background-color: #0785A9;
     height: 100%;
+    margin-top: 8%;
 }
 
-.container .dashboard .home-values div.temperature {
+.container-fluid .dashboard .home-values div.temperature {
     background: url('../images/temperature-white.svg');
     background-repeat: no-repeat;
     background-position: 0px 100px;
     background-size: 100px;
-    margin: 60px auto;
+    margin: 1% auto;
     height: 210px;
     width: 360px;
 }
 
-.container .dashboard .home-values .temperature p {
+.container-fluid .dashboard .home-values .temperature p {
     color: #FFFFFF;
-    font-size: 4.5em;
+    font-size: 4.65em;
     text-align: right;
     padding-right: 20px;
     height: 100%;
     letter-spacing: -0.05em;
 }
 
-.container .dashboard .home-values div.humidity {
+.container-fluid .dashboard .home-values div.humidity {
     background: url('../images/drop-white.svg');
     background-repeat: no-repeat;
     background-position: 0px 40px;
     background-size: 50px;
     height: 100px;
-    width: 190px;
-    margin: 0 auto;
+    /*width: 190px; when float displayed */
+    width: 160px;
+    margin: 8% auto;
 }
 
-.container .dashboard .home-values .humidity p {
+.container-fluid .dashboard .home-values .humidity p {
     color: #FFFFFF;
     font-size: 2.5em;
     line-height: 3em;
@@ -229,17 +250,17 @@ body {
     height: 100%;
 }
 
-.container .dashboard .home-values p span {
+.container-fluid .dashboard .home-values p span {
     color: #FFFFFF;
     font-size: 3em;
 }
 
-.container .dashboard .home-values p span.float,
-.container .dashboard .home-values p span.dot {
+.container-fluid .dashboard .home-values p span.float,
+.container-fluid .dashboard .home-values p span.dot {
     font-size: 1.5em;
 }
 
-.container .dashboard .home-values p span.unit {
+.container-fluid .dashboard .home-values p span.unit {
     color: #035A73;
     font-size: 1em;
 }
@@ -247,63 +268,76 @@ body {
 .outside-resume-display {
     position: absolute;
     width: 50%;
-    height: 60px;
+    height: 65px;
     top: 0px;
     left: 0px;
     background-color: transparent;
     z-index: 2;
-    opacity: 0.75;
+    font-size: 3em;
 }
 
 .outside.temperature {
     float: left;
-    width: 20%;
-    font-size: 2em;
-    font-family: "Open Sans Condensed Light";
-    line-height: 2em;
+    width: 30%;
+    font-family: 'Open Sans Condensed Light', sans-serif;
     font-style: normal;
-    text-align: right;
-    margin-right: 12px;
+    text-align: left;
     color: white;
+    margin-left: 10px;
 }
 
 .outside.pressure {
     float: left;
-    font-size: 2em;
-    font-family: "Open Sans Condensed Light";
-    line-height: 2em;
+    font-family: 'Open Sans Condensed Light', sans-serif;
     font-style: normal;
     text-align: left;
+    margin-left: 10px;
     color: white;
+}
+
+.outside.temperature span.unit,
+.outside.pressure span.unit {
+    font-size: 0.5em;
 }
 
 .outside.separator {
     float: left;
-    width: 10px;
-    height: 30px;
+    width: 2px;
+    height: 42px;
     border-left: 2px solid white;
-    margin-top: 14px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.outside-resume-display p,
+.outside.separator {
+    opacity: 0.75;
 }
 
 .state {
     position: absolute;
     width: 50%;
-    height: 60px;
+    height: 65px;
     top: 0px;
     right: 0px;
-    background-color: transparent;
+    background-color: #0785A9;
     z-index: 2;
+}
+
+.state .ambiance-mode,
+.state .sensor {
+    opacity: 0.75;
 }
 
 .state .ambiance-mode .auto {
     float: right;
-    width: 80px;
     height: 100%;
     font-size: 3em;
-    font-family: "Open Sans Condensed Light";
+    font-family: 'Open Sans Condensed Light', sans-serif;
     font-style: normal;
     text-align: right;
     margin-right: 12px;
+    margin-left: 8px;
     color: white;
 }
 
@@ -311,7 +345,7 @@ body {
     float: right;
     display: block;
     width: 50px;
-    height: 60px;
+    height: 65px;
     opacity: 1;
     background: url('../images/ambiance-comfort.svg');
     background-repeat: no-repeat;
@@ -323,7 +357,7 @@ body {
     float: right;
     display: block;
     width: 50px;
-    height: 60px;
+    height: 65px;
     opacity: 1;
     background: url('../images/ambiance-reduced.svg');
     background-repeat: no-repeat;
@@ -335,7 +369,7 @@ body {
     float: right;
     display: block;
     width: 50px;
-    height: 60px;
+    height: 65px;
     opacity: 1;
     background: url('../images/sensor.svg');
     background-repeat: no-repeat;
@@ -344,6 +378,9 @@ body {
 }
 
 .state .sensor .sensor-status.inactive {
+    -webkit-animation: sensorInactive 1s infinite;
+    -moz-animation: sensorInactive 1s infinite;
+    -o-animation: sensorInactive 1s infinite;
     animation: sensorInactive 1s infinite;
 }
 
@@ -437,6 +474,17 @@ body {
     margin-left: -190px;
 }
 
+.btn-group-vertical > .btn:first-child:not(:last-child),
+.btn-group-vertical > .btn:last-child:not(:first-child) {
+    border-radius: 0;
+}
+
+.ambiance-mode-setup {
+    margin-top: 2.5%;
+    margin-left: 2%;
+}
+
+.ambiance-mode-setup .btn,
 .setup-type .btn {
     background-color: transparent;
     border: 1px solid #035A73;
@@ -445,6 +493,8 @@ body {
     border-radius: 0;
 }
 
+.ambiance-mode-setup .btn.active,
+.ambiance-mode-setup .btn:active,
 .setup-type .btn.active,
 .setup-type .btn:active {
     background-color: #035A73;
@@ -581,9 +631,58 @@ body {
     background-color: #2EB2D7;
 }
 
+.ambiance-setup {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 150px;
+    height: 188px;
+    z-index: 10;
+    margin-left: -75px;
+    margin-top: -94px;
+    background-color: transparent;
+    border: 6px solid white;
+    border-radius: 6px;
+}
+
+.ambiance-setup .close-button {
+    display: inline-block;
+    height: 0;
+    width: 0;
+    left: 132px;
+    position: relative;
+    top: -38px;
+    z-index: 11;
+}
+
+.ambiance-setup .close-button i {
+    color: white;
+    font-size: 48px;
+    border-radius: 50%;
+    box-shadow: 0 0 0px 6px #0785A9;
+    background-color: #0785A9;
+}
+
+.ambiance-setup .btn-group-vertical {
+    width: 100%;
+}
+
+.ambiance-setup .btn-group-vertical label {
+    font-size: 2em;
+}
+
 .validAction {
+    -webkit-animation-name: validActionAnimation;
+    -moz-animation-name: validActionAnimation;
+    -o-animation-name: validActionAnimation;
     animation-name: validActionAnimation;
+    -webkit-animation-duration: 2s;
+    -moz-animation-duration: 2s;
+    -o-animation-duration: 2s;
     animation-duration: 2s;
+    -webkit-animation-timing-function: ease;
+    -moz-animation-timing-function: ease;
+    -o-animation-timing-function: ease;
     animation-timing-function: ease;
 }
 
@@ -596,5 +695,30 @@ body {
     }
     100% {
         color: #FFFFFF;
+    }
+}
+
+@media (max-width: 768px) {
+    html {
+        width: 480px;
+        height: 800px;
+    }
+
+    .container-fluid .dashboard .date-time {
+        height: 44%;
+        margin-top: 7%;
+    }
+
+    .container-fluid .dashboard .home-values {
+        height: 49%;
+        margin-top: 6%;
+    }
+
+    .container-fluid .dashboard .home-values div.temperature {
+        margin: -2% auto;
+    }
+
+    .outside-resume-display {
+        background-color: #0785A9;
     }
 }

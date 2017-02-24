@@ -4,9 +4,8 @@
     <title>Thermostat Interface</title>
 
     <link rel="stylesheet" href="../../vendor/jquery-ui-1.12.1/jquery-ui.css">
-    <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="../../vendor/rangeslider.js-2.3.0/rangeslider.css">
+    <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <!--    <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.css">-->
     <link rel="stylesheet" href="../../vendor/chartist/chartist.min.css">
     <link rel="stylesheet" href="css/style.css">
 
@@ -15,84 +14,112 @@
     <script src="../../vendor/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="../../vendor/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script src="../../vendor/sprintf/sprintf.min.js"></script>
-    <script src="../../vendor/rangeslider.js-2.3.0/rangeslider.js"></script>
     <script src="../../vendor/chartist/chartist.min.js"></script>
     <script src="../../vendor/chartist/chartist-plugin-threshold.min.js"></script>
     <script src="js/script.js"></script>
 
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
+
+    <!-- OUTSIDE SCREEN -->
     <div class="row outside-screen">
-        <div class="col-xs-12 col-md-12">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <p class="lead text-left">Outside history</p>
             <div class="ct-chart ct-perfect-fourth" id="chart-outside-temperature"></div>
             <p class="chart-outside-temperature-label">Temperature (°C)</p>
             <div class="ct-chart ct-perfect-fourth" id="chart-outside-pressure"></div>
             <p class="chart-outside-pressure-label">Pressure (hPa)</p>
         </div>
-        <div class="close-outside-screen" onclick="closeOutsideScreen();">
-            <i class="glyphicon glyphicon-remove"></i>
+        <div class="close-button">
+            <i class="glyphicon glyphicon-remove" onclick="closeOutsideScreen();"></i>
         </div>
     </div>
+    <!-- END OUTSIDE SCREEN -->
+
+    <!-- INSIDE SCREEN -->
     <div class="row inside-screen">
-        <div class="col-xs-12 col-md-12">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <p class="lead text-left">Inside history</p>
             <div class="ct-chart ct-perfect-fourth" id="chart-inside-temperature"></div>
             <p class="chart-inside-temperature-label">Temperature (°C)</p>
             <div class="ct-chart ct-perfect-fourth" id="chart-inside-humidity"></div>
             <p class="chart-inside-humidity-label">Humidity (%)</p>
         </div>
-        <div class="close-inside-screen" onclick="closeInsideScreen();">
-            <i class="glyphicon glyphicon-remove"></i>
+        <div class="close-button">
+            <i class="glyphicon glyphicon-remove" onclick="closeInsideScreen();"></i>
         </div>
     </div>
+    <!-- END INSIDE SCREEN -->
+
+    <!-- DASHBOARD -->
     <div class="row dashboard">
-        <div class="outside-resume-display" onclick="openOutsideScreen();">
-            <div class="outside temperature"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">°C</span></p></div>
-            <div class="outside separator"></div>
-            <div class="outside pressure"><p><span class="unity">0000</span><span class="unit">hPa</span></p></div>
-        </div>
-        <div class="state">
-            <div class="ambiance-mode">
-                <i class="auto">AUTO</i>
-                <i class="sun"></i>
-                <i class="cold"></i>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 _hidden-xs">
+            <div class="outside-resume-display" onclick="openOutsideScreen();">
+                <div class="outside pressure"><p><span class="unity">0000</span><span class="unit">hPa</span></p></div>
+                <div class="outside separator"></div>
+                <div class="outside temperature"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">°C</span></p></div>
             </div>
-            <div class="sensor">
-                <i class="sensor-status"></i>
+            <div class="state">
+                <div class="ambiance-mode">
+                    <i class="auto">AUTO</i>
+                    <i class="sun"></i>
+                    <i class="cold"></i>
+                </div>
+                <div class="sensor">
+                    <i class="sensor-status"></i>
+                </div>
             </div>
         </div>
-        <div class="col-xs-6 col-md-6 date-time">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 date-time">
             <?php $date = new DateTime(); ?>
             <h2 class="time"><?php echo $date->format("H:i"); ?></h2>
             <h3 class="date ui-btn"><?php echo strtoupper($date->format("l, M j")); ?></h3>
         </div>
-        <div class="col-xs-6 col-md-6 home-values" onclick="openInsideScreen();">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 home-values" onclick="openInsideScreen();">
             <div class="living-room temperature"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">°C</span></p></div>
-            <div class="living-room humidity"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">%</span></p></div>
+            <!--            <div class="living-room humidity"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">%</span></p></div>-->
+            <div class="living-room humidity"><p><span class="unity">00</span><span class="unit">%</span></p></div>
         </div>
     </div>
+    <!-- END DASHBOARD -->
+
+    <!-- SETUP SCREEN -->
     <div class="row setup-screen">
-        <div class="col-xs-12 col-md-12">
-            <p class="lead text-left">SETUP <span class="muted">Get the desired temperature by pressing the arrows</span></p>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="lead text-left">SETUP <span class="muted">Get the desired temperature and program comfort/reduce mode</span></p>
         </div>
 
-        <div class="col-xs-3 col-md-3"></div>
-        <div class="col-xs-4 col-md-4">
-            <p class="target-temperature text-right"><span>00.0</span>°C</p>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                <p class="target-temperature text-right"><span>00.0</span>°C</p>
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <a class="ui-btn increase-temp text-center" onclick="increaseTargetTemperature();">
+                    <i class="glyphicon glyphicon-chevron-up"></i>
+                </a>
+                <a class="ui-btn decrease-temp text-center" onclick="decreaseTargetTemperature();">
+                    <i class="glyphicon glyphicon-chevron-down"></i>
+                </a>
+            </div>
         </div>
-        <div class="col-xs-1 col-md-1">
-            <a class="ui-btn increase-temp text-center" onclick="increaseTargetTemperature();">
-                <i class="glyphicon glyphicon-chevron-up"></i>
-            </a>
-            <a class="ui-btn decrease-temp text-center" onclick="decreaseTargetTemperature();">
-                <i class="glyphicon glyphicon-chevron-down"></i>
-            </a>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 ambiance-mode-setup">
+            <div class="btn-group-vertical" data-toggle="buttons">
+                <label class="btn ui-btn active">
+                    <input type="radio" name="options" id="auto" value="auto" autocomplete="off" checked>AUTO
+                </label>
+                <label class="btn ui-btn">
+                    <input type="radio" name="options" id="comfort" value="comfort" autocomplete="off">COMFORT
+                </label>
+                <label class="btn ui-btn">
+                    <input type="radio" name="options" id="reduced" value="reduced" autocomplete="off">REDUCED
+                </label>
+            </div>
         </div>
-        <div class="col-xs-4 col-md-4"></div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
 
-        <div class="col-xs-12 col-md-12 setup-type dailyProgrammingMode">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 setup-type dailyProgrammingMode">
             <div class="btn-group" data-toggle="buttons">
                 <label class="btn ui-btn active">
                     <input type="radio" name="dailyProgrammingMode" id="everyday" value="everydays" autocomplete="off" checked> Identical everyday
@@ -105,7 +132,7 @@
                 </label>
             </div>
         </div>
-        <div class="col-xs-12 col-md-12 datetime-setup">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 datetime-setup">
             <div id="everydays" class="active">
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="everydayss" class="active">
@@ -235,11 +262,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-12 col-md-12 legend">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 legend">
             <div class="comfort_mode"></div>
             <span>Comfort mode</span>
         </div>
-        <div class="col-xs-12 col-md-12 legend">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 legend">
             <div class="reduce_mode"></div>
             <span>Reduce mode</span>
         </div>
@@ -247,6 +274,7 @@
             <i class="glyphicon glyphicon-remove"></i>
         </div>
     </div>
+    <!-- END SETUP SCREEN -->
 
     <div class="setup-button ui-btn" onclick="setup();">
         <i class="glyphicon glyphicon-cog"></i>

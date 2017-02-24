@@ -11,8 +11,10 @@ $(document).ready(function () {
     $('.outside-screen').hide();
     $('.inside-screen').hide();
     $('.setup-screen').hide();
+    $('.ambiance-setup').hide();
 
     getDateOfLastRecordedData('living-room');
+    getDateOfLastRecordedData('exterior');
 
     getSensor('living-room');
     getSensor('exterior');
@@ -74,15 +76,26 @@ function getSensor(location) {
         if (json.temperature) {
             var temperature = json.temperature.split('.');
 
+            if (temperature[1] <= 5) {
+                // temperature[0]++;
+                temperature[1] = '0';
+            } else {
+                temperature[1] = '5';
+            }
+
             $('.' + location + '.temperature span.unity').html(temperature[0]);
             $('.' + location + '.temperature span.float').html(temperature[1]);
+
+
         }
 
         if (json.humidity) {
-            var humidity = json.humidity.split('.');
+            // var humidity = json.humidity.split('.');
+            // $('.' + location + '.humidity span.unity').html(humidity[0]);
+            // $('.' + location + '.humidity span.float').html(humidity[1]);
 
-            $('.' + location + '.humidity span.unity').html(humidity[0]);
-            $('.' + location + '.humidity span.float').html(humidity[1]);
+            var humidity = Math.floor(json.humidity);
+            $('.' + location + '.humidity span.unity').html(humidity);
         }
 
         if (json.pressure) {
@@ -114,11 +127,10 @@ function getAmbianceMode() {
     $.getJSON('treatment.php', {
         action: 'getAmbianceMode'
     }).done(function (json) {
-        if (json == 'auto') {
-            $('.ambiance-mode .auto').css('opacity', 1);
-        } else {
-            $('.ambiance-mode .auto').css('opacity', 0.2);
-        }
+        $('.ambiance-mode .auto').html(json.toUpperCase());
+        $('.ambiance-setup label').removeClass('active');
+        $('.ambiance-setup input:checked').attr('checked', false);
+        $('.ambiance-setup input#' + json).attr('checked', true).parent().addClass('active');
     });
 
 }
@@ -151,12 +163,14 @@ function setup() {
     $('.dashboard').slideLeftHide();
 
     readTargetTemperature();
+    setAmbianceMode();
     getDailyProgrammingMode();
     getProgram();
-    initDatetimeSetup();
 
+    initDatetimeSetup();
     dailyProgrammingMode();
     setProgram();
+
 }
 
 
@@ -229,7 +243,7 @@ function increaseTargetTemperature() {
 
         write = setTimeout(function () {
             setTargetTemperature(result)
-        }, 3000);
+        }, 1000);
 
     }
 
@@ -300,42 +314,56 @@ function initDatetimeSetup() {
 
 
 function openOutsideScreen() {
-    $('.dashboard').slideRightHide();
-    $('.outside-screen').slideLeftShow();
-    $('.setup-button').hide();
+
+    $('.dashboard').css({
+        filter: 'blur(12px)',
+        webkitFilter: 'blur(12px)'
+    });
+    $('.outside-screen').fadeIn();
+
 
     getSensorHistory('exterior', true, true, false);
 
-    setTimeout(function () {
+    window.outsideScreenTimeout = setTimeout(function () {
         closeOutsideScreen();
     }, 20000);
 }
 
 
 function closeOutsideScreen() {
-    $('.dashboard').show();
-    $('.outside-screen').slideLeftHide();
-    $('.setup-button').show();
+
+    $('.outside-screen').fadeOut(400, function () {
+        $('.dashboard').css({
+            filter: 'none',
+            webkitFilter: 'none'
+        });
+    }).hide();
 }
 
 
 function openInsideScreen() {
-    $('.dashboard').slideRightHide();
-    $('.inside-screen').slideLeftShow();
-    $('.setup-button').hide();
+    $('.dashboard').css({
+        filter: 'blur(12px)',
+        webkitFilter: 'blur(12px)'
+    });
+    $('.inside-screen').fadeIn();
 
     getSensorHistory('living-room', true, false, true);
 
-    setTimeout(function () {
+    window.outsideScreenTimeout = setTimeout(function () {
         closeInsideScreen();
     }, 20000);
 }
 
 
 function closeInsideScreen() {
-    $('.dashboard').show();
-    $('.inside-screen').slideLeftHide();
-    $('.setup-button').show();
+
+    $('.inside-screen').fadeOut(400, function () {
+        $('.dashboard').css({
+            filter: 'none',
+            webkitFilter: 'none'
+        });
+    }).hide();
 }
 
 
@@ -362,7 +390,7 @@ function getSensorHistory(location, t, p, h) {
 
             var options = {
                 width: '99%',
-                height: '200px',
+                height: '170px',
                 showArea: true,
                 showPoint: false,
                 fullWidth: true,
@@ -386,8 +414,8 @@ function getSensorHistory(location, t, p, h) {
 
                     data.element.animate({
                         d: {
-                            begin: 4000 * data.index,
-                            dur: 4000,
+                            begin: 200 * data.index,
+                            dur: 2000,
                             from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
                             to: data.path.clone().stringify(),
                             easing: Chartist.Svg.Easing.easeOutQuint
@@ -402,7 +430,7 @@ function getSensorHistory(location, t, p, h) {
 
             var options = {
                 width: '99%',
-                height: '200px',
+                height: '170px',
                 high: 1040,
                 low: 980,
                 showArea: true,
@@ -423,8 +451,8 @@ function getSensorHistory(location, t, p, h) {
 
                     data.element.animate({
                         d: {
-                            begin: 4000 * data.index,
-                            dur: 4000,
+                            begin: 200 * data.index,
+                            dur: 2000,
                             from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
                             to: data.path.clone().stringify(),
                             easing: Chartist.Svg.Easing.easeOutQuint
@@ -440,7 +468,7 @@ function getSensorHistory(location, t, p, h) {
 
             var options = {
                 width: '99%',
-                height: '200px',
+                height: '170px',
                 high: 100,
                 low: 0,
                 showArea: true,
@@ -461,8 +489,8 @@ function getSensorHistory(location, t, p, h) {
 
                     data.element.animate({
                         d: {
-                            begin: 4000 * data.index,
-                            dur: 4000,
+                            begin: 200 * data.index,
+                            dur: 2000,
                             from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
                             to: data.path.clone().stringify(),
                             easing: Chartist.Svg.Easing.easeOutQuint
@@ -503,6 +531,24 @@ function getDailyProgrammingMode() {
 
 }
 
+
+function setAmbianceMode() {
+
+    $('.ambiance-mode-setup input').on('change', function (e) {
+
+        var value = $(e)[0].currentTarget.id;
+
+        $.getJSON('treatment.php', {
+            action: 'setAmbianceMode',
+            value: value
+        }).done(function (json) {
+
+            $('.ambiance-mode .auto').html(json.toUpperCase());
+
+        });
+
+    });
+}
 
 function getProgram() {
 

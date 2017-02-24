@@ -57,6 +57,10 @@ if ($_GET['action'] == 'setProgram') {
     echo json_encode(setProgram($_GET['name'], $_GET['position'], $_GET['value']));
 }
 
+if ($_GET['action'] == 'setAmbianceMode') {
+    echo json_encode(setAmbianceMode($_GET['value']));
+}
+
 
 function connectDB()
 {
@@ -334,5 +338,18 @@ function setProgram($name, $period, $value)
     $res = $mysqli->query("UPDATE `program` SET `$period` = '$value' WHERE `day` = '$name'");
 
     return "UPDATE `program` SET `$period` = '$value' WHERE `day` = '$name'";
+
+}
+
+function setAmbianceMode($value)
+{
+
+    $mysqli = connectDB();
+
+    $res = $mysqli->query("UPDATE `general` SET `value` = '$value' WHERE `label` = 'ambianceMode'");
+
+    if ($res) {
+        return $value;
+    }
 
 }
