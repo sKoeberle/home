@@ -5,16 +5,18 @@
 var minTemp = 17;
 var maxTemp = 25;
 var write;
+var sensorInactive = [];
 
 $(document).ready(function () {
 
     $('.outside-screen').hide();
     $('.inside-screen').hide();
+    $('.log-screen').hide();
     $('.setup-screen').hide();
     $('.ambiance-setup').hide();
 
-    getDateOfLastRecordedData('living-room');
-    getDateOfLastRecordedData('exterior');
+    getDateOfLastRecordedData('exterior', 0);
+    getDateOfLastRecordedData('living-room', 1);
 
     getSensor('living-room');
     getSensor('exterior');
@@ -26,7 +28,8 @@ $(document).ready(function () {
         getSensor('exterior');
         getAmbianceMode();
         getCurrentAmbianceMode();
-        getDateOfLastRecordedData('living-room');
+        getDateOfLastRecordedData('exterior', 0);
+        getDateOfLastRecordedData('living-room', 1);
     }, 60000);
 
     $('.date').on('click', function () {
@@ -36,7 +39,7 @@ $(document).ready(function () {
 });
 
 
-function getDateOfLastRecordedData(location) {
+function getDateOfLastRecordedData(location, i) {
 
     $.getJSON('treatment.php', {
         action: 'getDateOfLastRecordedData',
@@ -54,10 +57,18 @@ function getDateOfLastRecordedData(location) {
 
         // calculate difference and verify
         if (t - d > quarter) {
-            $('.sensor-status').addClass('inactive');
+            sensorInactive[i] = true;
         } else {
-            $('.sensor-status').removeClass('inactive');
+            sensorInactive[i] = false;
         }
+
+        // manage display
+        $('.sensor-status').removeClass('inactive');
+        $(sensorInactive).each(function (k, v) {
+            if (v === true) {
+                $('.sensor-status').addClass('inactive');
+            }
+        });
     });
 }
 
@@ -76,11 +87,16 @@ function getSensor(location) {
         if (json.temperature) {
             var temperature = json.temperature.split('.');
 
-            if (temperature[1] <= 5) {
+            if (temperature[1] <= 2) {
                 // temperature[0]++;
-                temperature[1] = '0';
-            } else {
-                temperature[1] = '5';
+                temperature[1] = 0;
+            }
+            if (temperature[1] > 2 && temperature[1] <= 7) {
+                temperature[1] = 5;
+            }
+            if (temperature[1] > 7) {
+                temperature[0]++;
+                temperature[1] = 0;
             }
 
             $('.' + location + '.temperature span.unity').html(temperature[0]);
@@ -367,6 +383,32 @@ function closeInsideScreen() {
 }
 
 
+function openLogScreen() {
+    $('.dashboard').css({
+        filter: 'blur(12px)',
+        webkitFilter: 'blur(12px)'
+    });
+    $('.log-screen').fadeIn();
+
+    getLogPage();
+
+    // window.outsideScreenTimeout = setTimeout(function () {
+    //     closeLogScreen();
+    // }, 20000);
+}
+
+
+function closeLogScreen() {
+
+    $('.log-screen').fadeOut(400, function () {
+        $('.dashboard').css({
+            filter: 'none',
+            webkitFilter: 'none'
+        });
+    }).hide();
+}
+
+
 function getSensorHistory(location, t, p, h) {
 
 
@@ -550,6 +592,7 @@ function setAmbianceMode() {
     });
 }
 
+
 function getProgram() {
 
     $.getJSON('treatment.php', {
@@ -604,6 +647,16 @@ function setProgram() {
             console.log(json);
         });
 
+    });
+}
+
+
+function getLogPage() {
+
+    $.getJSON('treatment.php', {
+        action: 'getLogPage'
+    }).done(function (json) {
+        $('.log-content').html(json);
     });
 }
 

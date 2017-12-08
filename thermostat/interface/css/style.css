@@ -32,7 +32,8 @@ body {
 }
 
 .container-fluid .outside-screen,
-.container-fluid .inside-screen {
+.container-fluid .inside-screen,
+.container-fluid .log-screen {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -45,8 +46,18 @@ body {
     border-radius: 6px;
 }
 
+.container-fluid .log-screen .log-content {
+    height: 87%;
+    width: 100%;
+    color: white;
+    overflow-y: scroll;
+    font-family: "Open Sans Condensed Light";
+    font-size: 22px;
+}
+
 .outside-screen .close-button,
-.inside-screen .close-button {
+.inside-screen .close-button,
+.log-screen .close-button {
     position: absolute;
     display: block;
     top: -27px;
@@ -57,7 +68,8 @@ body {
 }
 
 .outside-screen .close-button i,
-.inside-screen .close-button i {
+.inside-screen .close-button i,
+.log-screen .close-button i {
     color: white;
     font-size: 28px;
     border-radius: 6px;
@@ -68,7 +80,8 @@ body {
 }
 
 .outside-screen p.lead,
-.inside-screen p.lead {
+.inside-screen p.lead,
+.log-screen p.lead {
     font-size: 2em;
     color: #FFFFFF;
     margin-top: -26px;
@@ -82,25 +95,29 @@ body {
 }
 
 .outside-screen p span.muted,
-.inside-screen p span.muted {
+.inside-screen p span.muted,
+.log-screen p span.muted {
     color: #035A73;
     font-size: 0.4em;
 }
 
 .outside-screen .lead,
-.inside-screen .lead {
+.inside-screen .lead,
+.log-screen .lead {
     /*line-height: 2em;*/
 }
 
 .outside-screen .close-outside-screen,
-.inside-screen .close-inside-screen {
+.inside-screen .close-inside-screen,
+.log-screen .close-log-screen {
     position: absolute;
     right: 10px;
     top: 0;
 }
 
 .outside-screen .close-outside-screen i,
-.inside-screen .close-inside-screen i {
+.inside-screen .close-inside-screen i,
+.log-screen .close-log-screen i {
     color: #FFFFFF;
     margin-top: 8px;
     font-size: 40px;
@@ -311,7 +328,7 @@ body {
 
 .outside-resume-display p,
 .outside.separator {
-    opacity: 0.75;
+    opacity: 0.7;
 }
 
 .state {
@@ -326,7 +343,7 @@ body {
 
 .state .ambiance-mode,
 .state .sensor {
-    opacity: 0.75;
+    opacity: 0.7;
 }
 
 .state .ambiance-mode .auto {
@@ -408,7 +425,22 @@ body {
 .setup-button i {
     color: #FFFFFF;
     font-size: 40px;
-    opacity: 0.5;
+    opacity: 0.35;
+}
+
+.log-button {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    bottom: 2px;
+    right: 48px;
+    background-color: transparent;
+}
+
+.log-button i {
+    color: #FFFFFF;
+    font-size: 40px;
+    opacity: 0.35;
 }
 
 .setup-screen i {

@@ -52,6 +52,18 @@
     </div>
     <!-- END INSIDE SCREEN -->
 
+    <!-- LOG SCREEN -->
+    <div class="row log-screen">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="lead text-left">Daily log</p>
+            <div class="log-content"></div>
+        </div>
+        <div class="close-button">
+            <i class="glyphicon glyphicon-remove" onclick="closeLogScreen();"></i>
+        </div>
+    </div>
+    <!-- END LOG SCREEN -->
+
     <!-- DASHBOARD -->
     <div class="row dashboard">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 _hidden-xs">
@@ -87,7 +99,7 @@
     <!-- SETUP SCREEN -->
     <div class="row setup-screen">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <p class="lead text-left">SETUP <span class="muted">Get the desired temperature and program comfort/reduce mode</span></p>
+            <p class="lead text-left">SETUP <span class="muted">Get the desired temperature and program comfort/reduce mode</span> <span class="muted">[<?php echo $_SERVER['REMOTE_ADDR']; ?>]</span></p>
         </div>
 
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
@@ -278,6 +290,10 @@
 
     <div class="setup-button ui-btn" onclick="setup();">
         <i class="glyphicon glyphicon-cog"></i>
+    </div>
+
+    <div class="log-button ui-btn" onclick="openLogScreen();">
+        <i class="glyphicon glyphicon-list-alt"></i>
     </div>
 </div>
 </body>

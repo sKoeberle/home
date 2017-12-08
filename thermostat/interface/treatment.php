@@ -41,6 +41,10 @@ if ($_GET['action'] == 'getSensorHistory') {
     echo json_encode(getSensorHistory($_GET['sensor'], $_GET['t'], $_GET['p'], $_GET['h']));
 }
 
+if ($_GET['action'] == 'getLogPage') {
+    echo json_encode(getSslPage('http://192.168.1.20/__log/pi/thermostat.log'));
+}
+
 if ($_GET['action'] == 'getDailyProgrammingMode') {
     echo json_encode(getDailyProgrammingMode());
 }
@@ -352,4 +356,30 @@ function setAmbianceMode($value)
         return $value;
     }
 
+}
+
+function getSslPage($url)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_REFERER, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($ch);
+    curl_close($ch);
+
+    $result = nl2br($result);
+
+    return $result;
+}
+
+function verifySslCapability()
+{
+    $w = stream_get_wrappers();
+    echo 'openssl: ', extension_loaded('openssl') ? 'yes' : 'no', "<br>";
+    echo 'http wrapper: ', in_array('http', $w) ? 'yes' : 'no', "<br>";
+    echo 'https wrapper: ', in_array('https', $w) ? 'yes' : 'no', "<br>";
+    echo 'wrappers: ', var_export($w);
 }
