@@ -224,6 +224,10 @@ if ambiance_mode == 'auto':
         if day == '6':
             day = '7'
         current_mode = get_hour_mode(day, t)
+elif ambiance_mode == 'comfort':
+    current_mode = 1
+elif ambiance_mode == 'reduce':
+    current_mode = 0
 
 # Display current time
 print('\r')
