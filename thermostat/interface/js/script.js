@@ -18,20 +18,20 @@ $(document).ready(function () {
     $('.setup-screen').hide();
     $('.ambiance-setup').hide();
 
-    getDateOfLastRecordedData('exterior', 0);
+    // getDateOfLastRecordedData('exterior', 0);
     getDateOfLastRecordedData('living-room', 1);
 
     getSensor('living-room');
-    getSensor('exterior');
+    // getSensor('exterior');
     getAmbianceMode();
     getCurrentAmbianceMode();
 
     window.loop = setInterval(function () {
         getSensor('living-room');
-        getSensor('exterior');
+        // getSensor('exterior');
         getAmbianceMode();
         getCurrentAmbianceMode();
-        getDateOfLastRecordedData('exterior', 0);
+        // getDateOfLastRecordedData('exterior', 0);
         getDateOfLastRecordedData('living-room', 1);
     }, 60000);
 
@@ -67,7 +67,6 @@ function getDateOfLastRecordedData(location, i) {
 
         // manage display
         var inArray = $.inArray(true, sensorInactive);
-        console.log(sensorInactive);
         if (inArray !== -1) {
             if (!blink) {
                 blink = true;
