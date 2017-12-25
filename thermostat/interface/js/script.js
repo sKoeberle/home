@@ -11,6 +11,7 @@ interval = null;
 
 $(document).ready(function () {
 
+    $('.alert-screen').hide();
     $('.outside-screen').hide();
     $('.inside-screen').hide();
     $('.log-screen').hide();
@@ -21,16 +22,16 @@ $(document).ready(function () {
     getDateOfLastRecordedData('living-room', 1);
 
     getSensor('living-room');
-    // getSensor('exterior');
+    getSensor('exterior');
     getAmbianceMode();
     getCurrentAmbianceMode();
 
     window.loop = setInterval(function () {
         getSensor('living-room');
-        // getSensor('exterior');
+        getSensor('exterior');
         getAmbianceMode();
         getCurrentAmbianceMode();
-        // getDateOfLastRecordedData('exterior', 0);
+        getDateOfLastRecordedData('exterior', 0);
         getDateOfLastRecordedData('living-room', 1);
     }, 60000);
 
@@ -60,13 +61,13 @@ function getDateOfLastRecordedData(location, i) {
         // calculate difference and verify
         if (t - d > quarter) {
             sensorInactive[i] = true;
-            console.log(location, i);
         } else {
             sensorInactive[i] = false;
         }
 
         // manage display
         var inArray = $.inArray(true, sensorInactive);
+        console.log(sensorInactive);
         if (inArray !== -1) {
             if (!blink) {
                 blink = true;
