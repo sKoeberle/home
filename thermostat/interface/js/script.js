@@ -74,6 +74,7 @@ function getDateOfLastRecordedData(location, i) {
                 blinkSensor($('.sensor-status'));
             }
         } else {
+            closeAlertScreen();
             unblinkSensor(interval);
         }
 
