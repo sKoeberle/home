@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap.css">
     <!--    <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.css">-->
     <link rel="stylesheet" href="../../vendor/chartist/chartist.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?<?php echo time(); ?>">
 
     <script src="../../vendor/jquery/jquery-3.1.1.min.js"></script>
     <script src="../../vendor/jquery-ui-1.12.1/jquery-ui.min.js"></script>
@@ -16,11 +16,23 @@
     <script src="../../vendor/sprintf/sprintf.min.js"></script>
     <script src="../../vendor/chartist/chartist.min.js"></script>
     <script src="../../vendor/chartist/chartist-plugin-threshold.min.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/script.js?<?php echo time(); ?>"></script>
 
 </head>
 <body>
 <div class="container-fluid">
+
+    <!-- ALERT SCREEN -->
+    <div class="row alert-screen">
+        <div class="close-button">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <p class="lead">Sensor error detected!</p>
+                <span class="sensor-name"></span>
+            </div>
+            <i class="glyphicon glyphicon-remove" onclick="closeAlertScreen();"></i>
+        </div>
+    </div>
+    <!-- END ALERT SCREEN -->
 
     <!-- OUTSIDE SCREEN -->
     <div class="row outside-screen">

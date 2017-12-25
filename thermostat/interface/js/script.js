@@ -6,6 +6,8 @@ var minTemp = 17;
 var maxTemp = 25;
 var write;
 var sensorInactive = [];
+blink = false;
+interval = null;
 
 $(document).ready(function () {
 
@@ -19,16 +21,16 @@ $(document).ready(function () {
     getDateOfLastRecordedData('living-room', 1);
 
     getSensor('living-room');
-    getSensor('exterior');
+    // getSensor('exterior');
     getAmbianceMode();
     getCurrentAmbianceMode();
 
     window.loop = setInterval(function () {
         getSensor('living-room');
-        getSensor('exterior');
+        // getSensor('exterior');
         getAmbianceMode();
         getCurrentAmbianceMode();
-        getDateOfLastRecordedData('exterior', 0);
+        // getDateOfLastRecordedData('exterior', 0);
         getDateOfLastRecordedData('living-room', 1);
     }, 60000);
 
@@ -58,17 +60,23 @@ function getDateOfLastRecordedData(location, i) {
         // calculate difference and verify
         if (t - d > quarter) {
             sensorInactive[i] = true;
+            console.log(location, i);
         } else {
             sensorInactive[i] = false;
         }
 
         // manage display
-        $('.sensor-status').removeClass('inactive');
-        $(sensorInactive).each(function (k, v) {
-            if (v === true) {
-                $('.sensor-status').addClass('inactive');
+        var inArray = $.inArray(true, sensorInactive);
+        if (inArray !== -1) {
+            if (!blink) {
+                blink = true;
+                openAlertScreen('(' + location + ')');
+                blinkSensor($('.sensor-status'));
             }
-        });
+        } else {
+            unblinkSensor(interval);
+        }
+
     });
 }
 
@@ -329,13 +337,36 @@ function initDatetimeSetup() {
 }
 
 
+function openAlertScreen(sensor) {
+
+    $('.alert-screen .sensor-name').html(sensor);
+    $('.dashboard').css({
+        filter: 'blur(12px)',
+        webkitFilter: 'blur(12px)'
+    });
+    $('.alert-screen').fadeIn();
+
+}
+
+
+function closeAlertScreen() {
+
+    $('.alert-screen').fadeOut(400, function () {
+        $('.dashboard').css({
+            filter: 'none',
+            webkitFilter: 'none'
+        });
+    }).hide();
+}
+
+
 function openOutsideScreen() {
 
     $('.dashboard').css({
         filter: 'blur(12px)',
         webkitFilter: 'blur(12px)'
     });
-    $('.outside-screen').fadeIn();
+    $('.alert-screen').fadeIn();
 
 
     getSensorHistory('exterior', true, true, false);
@@ -660,6 +691,21 @@ function getLogPage() {
     });
 }
 
+function blinkSensor(sensor) {
+
+    interval = setInterval(function () {
+        sensor.animate({
+            opacity: 0
+        }, 500, "linear", function () {
+            sensor.animate({opacity: 1}, 500);
+        });
+    }, 1000)
+
+}
+
+function unblinkSensor(interval) {
+    clearInterval(interval);
+}
 
 jQuery.fn.extend({
 

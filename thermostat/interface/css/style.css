@@ -46,6 +46,58 @@ body {
     border-radius: 6px;
 }
 
+.container-fluid .alert-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 120px;
+    margin-left: -200px;
+    margin-top: -60px;
+    z-index: 10;
+    border: 4px solid white;
+    border-radius: 6px;
+    background-color: white;
+}
+
+.container-fluid .alert-screen .close-button {
+    display: block;
+    top: -27px;
+    right: 62px;
+    height: 0;
+    width: 0;
+    z-index: 11;
+}
+
+.container-fluid .alert-screen .close-button i {
+    position: absolute;
+    top: -24px;
+    right: -24px;
+    color: white;
+    font-size: 28px;
+    border-radius: 6px;
+    /*box-shadow: 0 0 0px 6px #0785A9;*/
+    background-color: #0785A9;
+    border: 4px solid white;
+    padding: 5px;
+}
+
+.alert-screen p.lead,
+.alert-screen span.sensor-name {
+    font-size: 3em;
+    color: #0785A9;
+    width: 360px;
+    line-height: 1.5em;
+    text-align: center;
+    margin: 0;
+}
+
+.alert-screen span.sensor-name {
+    line-height: .75em;
+    font-size: 2.5em;
+    display: inline-block;
+}
+
 .container-fluid .log-screen .log-content {
     height: 87%;
     width: 100%;
@@ -402,14 +454,11 @@ body {
 }
 
 @keyframes sensorInactive {
-    0% {
+    0%, 100% {
         opacity: 1;
     }
     50% {
         opacity: 0;
-    }
-    100% {
-        opacity: 1;
     }
 }
 
