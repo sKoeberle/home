@@ -69,13 +69,14 @@ if ($_GET['action'] == 'setAmbianceMode') {
 function connectDB()
 {
 
-    $dbHost = 'localhost';
+    $dbHost = '127.0.0.1';
     $dbUser = 'home';
     $dbPass = '2DsNEPnDHH93WT2y';
     $dbName = 'home';
+    $dbPort = 3307;
 
 
-    $mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
+    $mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName, $dbPort);
     if ($mysqli->connect_errno) {
         echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
