@@ -6,6 +6,15 @@ var minTemp = 17;
 var maxTemp = 25;
 var write;
 var sensorInactive = [];
+var id = '3034338';
+var tokenId = 'b6907d289e10d714a6e88b30761fae22';
+var units = 'metric';
+var lang = 'fr';
+// var location = '';
+// var t = 0;
+// var p = 0;
+// var h = 0;
+
 blink = false;
 interval = null;
 
@@ -39,6 +48,7 @@ $(document).ready(function () {
         window.location.reload();
     });
 
+    getOpenWeatherMap(id, tokenId, units, lang);
 });
 
 
@@ -93,42 +103,7 @@ function getSensor(location) {
             location = 'outside';
         }
 
-        if (json.temperature) {
-            var temperature = json.temperature.split('.');
-
-            if (temperature[1] <= 2) {
-                // temperature[0]++;
-                temperature[1] = 0;
-            }
-            if (temperature[1] > 2 && temperature[1] <= 7) {
-                temperature[1] = 5;
-            }
-            if (temperature[1] > 7) {
-                temperature[0]++;
-                temperature[1] = 0;
-            }
-
-            $('.' + location + '.temperature span.unity').html(temperature[0]);
-            $('.' + location + '.temperature span.float').html(temperature[1]);
-
-
-        }
-
-        if (json.humidity) {
-            // var humidity = json.humidity.split('.');
-            // $('.' + location + '.humidity span.unity').html(humidity[0]);
-            // $('.' + location + '.humidity span.float').html(humidity[1]);
-
-            var humidity = Math.floor(json.humidity);
-            $('.' + location + '.humidity span.unity').html(humidity);
-        }
-
-        if (json.pressure) {
-            var pressure = json.pressure.split('.');
-
-            $('.' + location + '.pressure span.unity').html(pressure[0]);
-            // $('.' + location + '.pressure span.float').html(pressure[1]);
-        }
+        display(location, json.temperature, json.pressure, json.humidity);
 
     });
 
@@ -160,6 +135,50 @@ function getAmbianceMode() {
 
 }
 
+
+function display(location, t, p, h) {
+
+    t = String(t);
+    // h = String(h);
+    // p = String(p);
+
+    // console.log(location, t, p, h);
+
+
+    if (t !== '') {
+
+        var temperature = t.split('.');
+        temperature[1] = temperature[1].substr(0, 1);
+        if (temperature[1] <= 2) {
+            // temperature[0]++;
+            temperature[1] = 0;
+        }
+        if (temperature[1] > 2 && temperature[1] <= 7) {
+            temperature[1] = 5;
+        }
+        if (temperature[1] > 7) {
+            temperature[0]++;
+            temperature[1] = 0;
+        }
+
+        $('.' + location + '.temperature span.unity').html(String(temperature[0]));
+        $('.' + location + '.temperature span.float').html(String(temperature[1]));
+
+    }
+
+    if (p !== '') {
+        var pressure = String(parseInt(p));
+        $('.' + location + '.pressure span.unity').html(pressure);
+    }
+
+    if (h > 0) {
+        var humidity = String(Math.floor(h));
+        $('.' + location + '.humidity span.unity').html(humidity);
+    }
+
+
+    // console.log(location, temperature, pressure, humidity);
+}
 
 function getCurrentAmbianceMode() {
 
@@ -692,6 +711,7 @@ function getLogPage() {
     });
 }
 
+
 function blinkSensor(sensor) {
 
     interval = setInterval(function () {
@@ -704,8 +724,17 @@ function blinkSensor(sensor) {
 
 }
 
+
 function unblinkSensor(interval) {
     clearInterval(interval);
+}
+
+
+function getOpenWeatherMap(id, tokenId, units, lang) {
+
+    $.getJSON('https://openweathermap.org/data/2.5/weather/?appid=' + tokenId + '&id=' + id + '&units=' + units + '&lang=' + lang, {}).done(function (json) {
+        display('outside', json.main.temp, json.main.pressure, json.main.humidity);
+    });
 }
 
 jQuery.fn.extend({
