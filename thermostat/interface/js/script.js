@@ -10,10 +10,26 @@ var id = '3034338';
 var tokenId = 'b6907d289e10d714a6e88b30761fae22';
 var units = 'metric';
 var lang = 'fr';
-// var location = '';
-// var t = 0;
-// var p = 0;
-// var h = 0;
+var weatherIcons = {
+    '01d': 'wi-day-sunny',
+    '02d': 'wi-day-cloudy',
+    '03d': 'wi-cloud',
+    '04d': 'wi-cloudy',
+    '09d': 'wi-rain',
+    '10d': 'wi-day-rain',
+    '11d': 'wi-storm-showers',
+    '13d': 'wi-snow',
+    '50d': 'wi-day-fog',
+    '01n': 'wi-night-clear',
+    '02n': 'wi-night-alt-cloudy',
+    '03n': 'wi-cloud',
+    '04n': 'wi-cloudy',
+    '09n': 'wi-rain',
+    '10n': 'wi-night-alt-rain',
+    '11n': 'wi-storm-showers',
+    '13n': 'wi-snow',
+    '50n': 'wi-night-fog'
+};
 
 blink = false;
 interval = null;
@@ -42,6 +58,7 @@ $(document).ready(function () {
         getCurrentAmbianceMode();
         // getDateOfLastRecordedData('exterior', 1);
         getDateOfLastRecordedData('living-room', 1);
+        getOpenWeatherMap(id, tokenId, units, lang);
     }, 60000);
 
     $('.date').on('click', function () {
@@ -734,7 +751,16 @@ function getOpenWeatherMap(id, tokenId, units, lang) {
 
     $.getJSON('https://openweathermap.org/data/2.5/weather/?appid=' + tokenId + '&id=' + id + '&units=' + units + '&lang=' + lang, {}).done(function (json) {
         display('outside', json.main.temp, json.main.pressure, json.main.humidity);
+        displayWeather(json.weather[0].icon, json.main.temp_min, json.main.temp_max);
     });
+}
+
+
+function displayWeather(icon, tempMin, tempMax) {
+
+    $('.weather span.icon').attr('class', 'icon wi ' + weatherIcons[icon]);
+    $('.weather span.temp_min').html(tempMin + '°C');
+    $('.weather span.temp_max').html(tempMax + '°C');
 }
 
 jQuery.fn.extend({

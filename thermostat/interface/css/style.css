@@ -347,7 +347,7 @@ body {
 
 .outside.temperature {
     float: left;
-    width: 30%;
+    width: 25%;
     font-family: 'Open Sans Condensed Light', sans-serif;
     font-style: normal;
     text-align: left;
@@ -362,6 +362,40 @@ body {
     text-align: left;
     margin-left: 10px;
     color: white;
+}
+
+.outside.weather {
+    float: left;
+    font-family: 'Open Sans Condensed Light', sans-serif;
+    font-style: normal;
+    text-align: left;
+    margin-left: 4px;
+    color: white;
+}
+
+.outside.weather span.icon {
+    float: left;
+    font-size: 36px;
+    line-height: 60px;
+}
+
+.outside.weather span.temp_min,
+.outside.weather span.temp_max {
+    float: left;
+    position: relative;
+    top: 20px;
+    font-size: 24px;
+    margin-left: 8px;
+}
+
+.outside.weather span.separator {
+    float: left;
+    position: relative;
+    width: 1px;
+    height: 24px;
+    border-left: 1px solid white;
+    top: 26px;
+    margin-left: 8px;
 }
 
 .outside.temperature span.unit,

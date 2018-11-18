@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap.css">
     <!--    <link rel="stylesheet" href="../../vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.css">-->
     <link rel="stylesheet" href="../../vendor/chartist/chartist.min.css">
+    <link rel="stylesheet" href="../../vendor/weather-icons-master/css/weather-icons.css">
     <link rel="stylesheet" href="css/style.css?<?php echo time(); ?>">
 
     <script src="../../vendor/jquery/jquery-3.1.1.min.js"></script>
@@ -83,6 +84,7 @@
                 <div class="outside pressure"><p><span class="unity">0000</span><span class="unit">hPa</span></p></div>
                 <div class="outside separator"></div>
                 <div class="outside temperature"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">°C</span></p></div>
+                <div class="outside weather"><p><span class="icon wi wi-na"></span><span class="temp_min"></span><span class="separator"></span><span class="temp_max"></span></p></div>
             </div>
             <div class="state">
                 <div class="ambiance-mode">
