@@ -159,13 +159,17 @@ function display(location, t, p, h) {
     // h = String(h);
     // p = String(p);
 
-    // console.log(location, t, p, h);
-
+    console.log(location, t, p, h);
+    var temperature = [];
 
     if (t !== '') {
-
-        var temperature = t.split('.');
-        temperature[1] = temperature[1].substr(0, 1);
+        if (t.includes('.')) {
+            temperature = t.split('.');
+            temperature[1] = temperature[1].substr(0, 1);
+        } else {
+            temperature[0] = t;
+            temperature[1] = 0;
+        }
         if (temperature[1] <= 2) {
             // temperature[0]++;
             temperature[1] = 0;
