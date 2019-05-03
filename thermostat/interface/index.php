@@ -12,13 +12,12 @@
 
     <script src="../../vendor/jquery/jquery-3.1.1.min.js"></script>
     <script src="../../vendor/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-    <script src="../../vendor/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <!--    <script src="../../vendor/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
     <script src="../../vendor/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script src="../../vendor/sprintf/sprintf.min.js"></script>
     <script src="../../vendor/chartist/chartist.min.js"></script>
     <script src="../../vendor/chartist/chartist-plugin-threshold.min.js"></script>
     <script src="js/script.js?<?php echo time(); ?>"></script>
-
 </head>
 <body>
 <div class="container-fluid">

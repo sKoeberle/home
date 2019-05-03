@@ -156,8 +156,8 @@ function getAmbianceMode() {
 function display(location, t, p, h) {
 
     t = String(t);
-    // h = String(h);
-    // p = String(p);
+    h = parseInt(h);
+    p = parseInt(p);
 
     console.log(location, t, p, h);
     var temperature = [];
@@ -187,7 +187,7 @@ function display(location, t, p, h) {
 
     }
 
-    if (p !== '') {
+    if (p > 0) {
         var pressure = String(parseInt(p));
         $('.' + location + '.pressure span.unity').html(pressure);
     }
@@ -197,9 +197,13 @@ function display(location, t, p, h) {
         $('.' + location + '.humidity span.unity').html(humidity);
     }
 
+    // $('.' + location + '.temperature').html(t);
+    // $('.' + location + '.pressure').html(p);
+    // $('.' + location + '.humidity').html(h);
 
     // console.log(location, temperature, pressure, humidity);
 }
+
 
 function getCurrentAmbianceMode() {
 

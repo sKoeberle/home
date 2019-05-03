@@ -167,15 +167,15 @@ function getCurrentSensorData($sensor)
 
     $res = $mysqli->query("SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,1");
     $row = $res->fetch_assoc();
-    $result['temperature'] = $row['value'];
+    $result['temperature'] = (float)$row['value'];
 
     $res = $mysqli->query("SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'humidity' ORDER BY `recordTime` DESC LIMIT 0,1");
     $row = $res->fetch_assoc();
-    $result['humidity'] = $row['value'];
+    $result['humidity'] = (float)$row['value'];
 
     $res = $mysqli->query("SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'pressure' ORDER BY `recordTime` DESC LIMIT 0,1");
     $row = $res->fetch_assoc();
-    $result['pressure'] = $row['value'];
+    $result['pressure'] = (float)$row['value'];
 
     return $result;
 
