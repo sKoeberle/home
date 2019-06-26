@@ -7,6 +7,11 @@ import time
 import mysql.connector
 import RPi.GPIO as GPIO
 
+# Import config
+from config import Config
+file = file('config.cfg')
+config = Config(file)
+
 # cgitb.enable()
 
 DEBUG = False
@@ -78,7 +83,7 @@ def valve(value):
 
 # Get the target temperature set by the user
 def get_target_temperature():
-    conn = mysql.connector.connect(host="192.168.1.251", user="home", password="2DsNEPnDHH93WT2y", database="home")
+    conn = mysql.connector.connect(host=config.dbhost, user=config.dbuser, password=config.dbpwd, database=config.dbname)
     cursor = conn.cursor()
     cursor.execute("""SELECT `temperature` FROM `target` ORDER BY `demand` DESC LIMIT 0,1""")
     for (temp) in cursor:
@@ -90,7 +95,7 @@ def get_target_temperature():
 
 # Get current temperature of the main sensor
 def get_current_temperature():
-    conn = mysql.connector.connect(host="192.168.1.251", user="home", password="2DsNEPnDHH93WT2y", database="home")
+    conn = mysql.connector.connect(host=config.dbhost, user=config.dbuser, password=config.dbpwd, database=config.dbname)
     cursor = conn.cursor()
     cursor.execute(
         """SELECT `value` FROM `sensors` WHERE `type` = 'temperature' AND `location` = 'living-room' ORDER BY `recordTime` DESC LIMIT 0,1""")
@@ -103,7 +108,7 @@ def get_current_temperature():
 
 # Get the current ambiance mode in database for display
 def get_ambiance_mode(ambiance_mode):
-    conn = mysql.connector.connect(host="192.168.1.251", user="home", password="2DsNEPnDHH93WT2y", database="home")
+    conn = mysql.connector.connect(host=config.dbhost, user=config.dbuser, password=config.dbpwd, database=config.dbname)
     cursor = conn.cursor()
     cursor.execute("""SELECT `value` FROM `general` WHERE `label` = 'ambiance_mode'""")
     for (val) in cursor:
@@ -115,7 +120,7 @@ def get_ambiance_mode(ambiance_mode):
 
 # Get the current daily programming mode
 def get_current_daily_programming_mode():
-    conn = mysql.connector.connect(host="192.168.1.251", user="home", password="2DsNEPnDHH93WT2y", database="home")
+    conn = mysql.connector.connect(host=config.dbhost, user=config.dbuser, password=config.dbpwd, database=config.dbname)
     cursor = conn.cursor()
     cursor.execute("""SELECT `value` FROM `general` WHERE `label` = 'dailyProgrammingMode'""")
     for (val) in cursor:
@@ -127,7 +132,7 @@ def get_current_daily_programming_mode():
 
 # Get the current daily programming mode
 def get_hour_mode(daily_programming_mode, hour):
-    conn = mysql.connector.connect(host="192.168.1.251", user="home", password="2DsNEPnDHH93WT2y", database="home")
+    conn = mysql.connector.connect(host=config.dbhost, user=config.dbuser, password=config.dbpwd, database=config.dbname)
     cursor = conn.cursor()
     # print "SELECT `%s` FROM `program` WHERE `day` = '%s'""" % (hour, daily_programming_mode)
     cursor.execute("""SELECT `%s` FROM `program` WHERE `day` = '%s'""" % (hour, daily_programming_mode))
@@ -140,7 +145,7 @@ def get_hour_mode(daily_programming_mode, hour):
 
 # Set the current ambiance mode in database for display
 def set_current_ambiance_mode(mode):
-    conn = mysql.connector.connect(host="192.168.1.251", user="home", password="2DsNEPnDHH93WT2y", database="home")
+    conn = mysql.connector.connect(host=config.dbhost, user=config.dbuser, password=config.dbpwd, database=config.dbname)
     cursor = conn.cursor()
     cursor.execute("""UPDATE `general` SET `value` = %s WHERE `label` = %s""", (mode, 'currentAmbianceMode'))
     cursor.close()

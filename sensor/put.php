@@ -1,21 +1,26 @@
 <?php
+
+// Read configuration
+$config = parse_ini_file('/home/sensor/config.php');
+
+
 $p = $_GET['p'];
 $a = $_GET['a'];
 $t = $_GET['t'];
 $h = $_GET['h'];
 $s = $_GET['s'];
 
-$mysqli = connectDB();
-if($p){
+$mysqli = connectDB($config);
+if ($p) {
     $res = $mysqli->query("INSERT INTO `home`.`sensors` SET `location` = '$s', `type` = 'pressure', `value` = '$p'");
 }
-if($a) {
+if ($a) {
     $res = $mysqli->query("INSERT INTO `home`.`sensors` SET `location` = '$s', `type` = 'altitude', `value` = '$a'");
 }
-if($t) {
+if ($t) {
     $res = $mysqli->query("INSERT INTO `home`.`sensors` SET `location` = '$s', `type` = 'temperature', `value` = '$t'");
 }
-if($h) {
+if ($h) {
     $res = $mysqli->query("INSERT INTO `home`.`sensors` SET `location` = '$s', `type` = 'humidity', `value` = '$h'");
 }
 
@@ -24,7 +29,7 @@ if($h) {
 include_once($_SERVER['DOCUMENT_ROOT'] . '/home/sensor/phpMailer/class.phpmailer.php');
 
 
-// Ecriture du log dans le fichier log ouvert en mode 'a' (append)
+// Writing logs
 try {
     $handle = @fopen($_SERVER['DOCUMENT_ROOT'] . "/home/sensor/__log/log.txt", "a+");
     if ($handle) {
@@ -41,13 +46,13 @@ try {
     $date = new DateTime('now', new DateTimeZone('Europe/Paris'));
     $datetime = $date->format('Ymd-H:i:s');
 
-    $message = "Bonjour," . __BR__ . __BR__
-        . "Voici le détail de l'erreur :" . __BR__ . __BR__
-        . "Date : <b>" . $datetime . "</b>" . __BR__
-        . "Id session : <b>" . session_id() . "</b>" . __BR__
-        . "Détail : <b>" . stripslashes($e->getMessage()) . "</b>" . __BR__ . __BR__
+    $message = "Hi," . __BR__ . __BR__
+        . "Errors details:" . __BR__ . __BR__
+        . "Date: <b>" . $datetime . "</b>" . __BR__
+        . "Id session: <b>" . session_id() . "</b>" . __BR__
+        . "Details: <b>" . stripslashes($e->getMessage()) . "</b>" . __BR__ . __BR__
         . "_________" . __BR__
-        . "Le robot";
+        . "System";
 
 
     // Include class
@@ -64,7 +69,7 @@ try {
 
         //Set an alternative reply-to address
         //Set who the message is to be sent to
-        $mail->addAddress('stephane.koeberle@gmail.com', 'Admin');
+        $mail->addAddress($config['mail'], 'Admin');
 
 
         //Set the subject line
@@ -87,17 +92,10 @@ try {
 }
 
 
-function connectDB()
+function connectDB($config)
 {
 
-    $dbHost = '127.0.0.1';
-    $dbUser = 'home';
-    $dbPass = '2DsNEPnDHH93WT2y';
-    $dbName = 'home';
-    $dbPort = 3307;
-
-
-    $mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName, $dbPort);
+    $mysqli = new mysqli($config['dbHost'], $config['dbUser'], $config['dbPass'], $config['dbName'], $config['dbPort']);
 
     if ($mysqli->connect_errno) {
         echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;

@@ -1,5 +1,12 @@
 <?php
 
+// Read and parse configuration file
+try {
+    $config = parse_ini_file('/home/thermostat/config.php');
+} catch (Exception $e) {
+    echo 'Fail to read config file!';
+}
+
 
 if ($_GET['action'] == 'getAmbianceMode') {
     echo json_encode(getAmbianceMode());
@@ -68,21 +75,17 @@ if ($_GET['action'] == 'setAmbianceMode') {
 
 function connectDB()
 {
-
-    $dbHost = '127.0.0.1';
-    $dbUser = 'home';
-    $dbPass = '2DsNEPnDHH93WT2y';
-    $dbName = 'home';
-    $dbPort = 3307;
+    global $config;
 
 
-    $mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName, $dbPort);
+    $mysqli = new mysqli($config['dbHost'], $config['dbUser'], $config['dbPass'], $config['dbName'], $config['dbPort']);
     if ($mysqli->connect_errno) {
         echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
 
     return $mysqli;
 }
+
 
 function getAmbianceMode()
 {
@@ -95,6 +98,7 @@ function getAmbianceMode()
 
 }
 
+
 function getCurrentAmbianceMode()
 {
     $mysqli = connectDB();
@@ -106,6 +110,7 @@ function getCurrentAmbianceMode()
 
 }
 
+
 function getCurrentDate()
 {
 
@@ -113,12 +118,14 @@ function getCurrentDate()
     return strtoupper($date->format("l, M j"));
 }
 
+
 function getCurrentTime()
 {
 
     $time = new DateTime();
     return $time->format("H:i");
 }
+
 
 function getTargetTemperature()
 {
@@ -130,6 +137,7 @@ function getTargetTemperature()
     return sprintf("%01.1f", $row['temperature']);
 
 }
+
 
 function getTemperatureSettings()
 {
@@ -151,6 +159,7 @@ function getTemperatureSettings()
     return $result;
 }
 
+
 function setTargetTemperature($temp)
 {
     $mysqli = connectDB();
@@ -160,6 +169,7 @@ function setTargetTemperature($temp)
     return $res;
 
 }
+
 
 function getCurrentSensorData($sensor)
 {
@@ -181,6 +191,7 @@ function getCurrentSensorData($sensor)
 
 }
 
+
 function getDateOfLastRecordedData($sensor)
 {
     $mysqli = connectDB();
@@ -191,6 +202,7 @@ function getDateOfLastRecordedData($sensor)
 
     return $result;
 }
+
 
 function getSensorHistory($sensor, $temperature = false, $pressure = false, $humidity = false)
 {
@@ -305,6 +317,7 @@ function getSensorHistory($sensor, $temperature = false, $pressure = false, $hum
 
 }
 
+
 function getDailyProgrammingMode()
 {
     $mysqli = connectDB();
@@ -316,6 +329,7 @@ function getDailyProgrammingMode()
     return $result;
 }
 
+
 function setDailyProgrammingMode($mode = "everyday|eachday|weekday")
 {
     $mysqli = connectDB();
@@ -326,6 +340,7 @@ function setDailyProgrammingMode($mode = "everyday|eachday|weekday")
 
 }
 
+
 function getProgram()
 {
     $mysqli = connectDB();
@@ -334,6 +349,7 @@ function getProgram()
 
     return $res->fetch_all(MYSQLI_ASSOC);
 }
+
 
 function setProgram($name, $period, $value)
 {
@@ -345,6 +361,7 @@ function setProgram($name, $period, $value)
     return "UPDATE `program` SET `$period` = '$value' WHERE `day` = '$name'";
 
 }
+
 
 function setAmbianceMode($value)
 {
@@ -358,6 +375,7 @@ function setAmbianceMode($value)
     }
 
 }
+
 
 function getSslPage($url)
 {
@@ -375,6 +393,7 @@ function getSslPage($url)
 
     return $result;
 }
+
 
 function verifySslCapability()
 {

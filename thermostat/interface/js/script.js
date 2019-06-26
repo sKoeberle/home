@@ -1,13 +1,14 @@
 /**
- * Created by Stéphane Koeberlé on 30/10/2016.
+ * Created by Stéphane Koeberlé on 2016/10/30.
  */
+import * as config from './config.js';
 
 var minTemp = 17;
 var maxTemp = 25;
 var write;
 var sensorInactive = [];
-var id = '3034338';
-var tokenId = 'b6907d289e10d714a6e88b30761fae22';
+var id = config.id;
+var tokenId = config.tokenId;
 var units = 'metric';
 var lang = 'fr';
 var weatherIcons = {
