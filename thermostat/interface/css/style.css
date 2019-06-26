@@ -16,7 +16,7 @@
 html {
     font-family: 'Open Sans Condensed Light', sans-serif;
     overflow: hidden;
-    cursor: none;
+    /*cursor: none;*/
     width: 800px;
     height: 480px;
 }
@@ -24,7 +24,7 @@ html {
 body {
     background-color: #0CA7D2;
     font-family: 'Open Sans Condensed Light', sans-serif;
-    cursor: none;
+    /*cursor: none;*/
 }
 
 .container-fluid {
@@ -103,7 +103,7 @@ body {
     width: 100%;
     color: white;
     overflow-y: scroll;
-    font-family: "Open Sans Condensed Light";
+    font-family: "Open Sans Condensed Light", Helvetica, sans-serif;
     font-size: 22px;
 }
 
@@ -282,9 +282,7 @@ body {
 }
 
 .container-fluid .dashboard .home-values div.temperature {
-    background: url('../images/temperature-white.svg');
-    background-repeat: no-repeat;
-    background-position: 0px 100px;
+    background: url('../images/temperature-white.svg') no-repeat 0 100px;
     background-size: 100px;
     margin: 1% auto;
     height: 210px;
@@ -301,9 +299,7 @@ body {
 }
 
 .container-fluid .dashboard .home-values div.humidity {
-    background: url('../images/drop-white.svg');
-    background-repeat: no-repeat;
-    background-position: 0px 40px;
+    background: url('../images/drop-white.svg') no-repeat 0 40px;
     background-size: 50px;
     height: 100px;
     /*width: 190px; when float displayed */
@@ -338,8 +334,8 @@ body {
     position: absolute;
     width: 50%;
     height: 65px;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     background-color: transparent;
     z-index: 2;
     font-size: 3em;
@@ -347,7 +343,7 @@ body {
 
 .outside.temperature {
     float: left;
-    width: 25%;
+    width: 22%;
     font-family: 'Open Sans Condensed Light', sans-serif;
     font-style: normal;
     text-align: left;
@@ -421,8 +417,8 @@ body {
     position: absolute;
     width: 50%;
     height: 65px;
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
     background-color: #0785A9;
     z-index: 2;
 }
@@ -450,9 +446,7 @@ body {
     width: 50px;
     height: 65px;
     opacity: 1;
-    background: url('../images/ambiance-comfort.svg');
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url('../images/ambiance-comfort.svg') no-repeat center;
     background-size: 40px;
 }
 
@@ -462,9 +456,7 @@ body {
     width: 50px;
     height: 65px;
     opacity: 1;
-    background: url('../images/ambiance-reduced.svg');
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url('../images/ambiance-reduced.svg') no-repeat center;
     background-size: 40px;
 }
 
@@ -474,9 +466,7 @@ body {
     width: 50px;
     height: 65px;
     opacity: 1;
-    background: url('../images/sensor.svg');
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url('../images/sensor.svg') no-repeat center;
     background-size: 40px;
 }
 
@@ -500,8 +490,8 @@ body {
     position: absolute;
     width: 46px;
     height: 46px;
-    bottom: 0px;
-    right: 0px;
+    bottom: 0;
+    right: 0;
     background-color: transparent;
 }
 
@@ -774,7 +764,7 @@ body {
     color: white;
     font-size: 48px;
     border-radius: 50%;
-    box-shadow: 0 0 0px 6px #0785A9;
+    box-shadow: 0 0 0 6px #0785A9;
     background-color: #0785A9;
 }
 

@@ -1,7 +1,8 @@
 /**
  * Created by Stéphane Koeberlé on 2016/10/30.
  */
-import * as config from './config.js';
+
+const config = {id: '3034338', tokenId: 'b6907d289e10d714a6e88b30761fae22'};
 
 var minTemp = 17;
 var maxTemp = 25;
@@ -766,6 +767,9 @@ function getOpenWeatherMap(id, tokenId, units, lang) {
 
 
 function displayWeather(icon, tempMin, tempMax) {
+
+    tempMin = tempMin.toFixed(1);
+    tempMax = tempMax.toFixed(1);
 
     $('.weather span.icon').attr('class', 'icon wi ' + weatherIcons[icon]);
     $('.weather span.temp_min').html(tempMin + '°C');
