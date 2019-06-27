@@ -2,7 +2,7 @@
  * Created by Stéphane Koeberlé on 2016/10/30.
  */
 
-const config = {id: '3034338', tokenId: 'b6907d289e10d714a6e88b30761fae22'};
+const config = {id: '3037368', tokenId: 'b6907d289e10d714a6e88b30761fae22'};
 
 var minTemp = 17;
 var maxTemp = 25;
