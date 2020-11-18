@@ -14,9 +14,9 @@
     <script src="../../vendor/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     <!--    <script src="../../vendor/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
     <script src="../../vendor/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-    <script src="../../vendor/sprintf/sprintf.min.js"></script>
+    <!--<script src="../../vendor/sprintf/sprintf.min.js"></script>-->
     <script src="../../vendor/chartist/chartist.min.js"></script>
-    <script src="../../vendor/chartist/chartist-plugin-threshold.min.js"></script>
+    <!--<script src="../../vendor/chartist/chartist-plugin-threshold.min.js"></script>-->
     <script src="js/script.js?<?php echo time(); ?>"></script>
 </head>
 <body>
@@ -82,8 +82,10 @@
             <div class="outside-resume-display" onclick="openOutsideScreen();">
                 <div class="outside pressure"><p><span class="unity">0000</span><span class="unit">hPa</span></p></div>
                 <div class="outside separator"></div>
-                <div class="outside temperature"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">°C</span></p></div>
-                <div class="outside weather"><p><span class="icon wi wi-na"></span><span class="temp_min"></span><span class="separator"></span><span class="temp_max"></span></p></div>
+                <div class="outside temperature"><p><span class="unity">00</span><span class="dot">.</span><span
+                                class="float">0</span><span class="unit">°C</span></p></div>
+                <div class="outside weather"><p><span class="icon wi wi-na"></span><span class="temp_min"></span><span
+                                class="separator"></span><span class="temp_max"></span></p></div>
             </div>
             <div class="state">
                 <div class="ambiance-mode">
@@ -102,9 +104,22 @@
             <h3 class="date ui-btn"><?php echo strtoupper($date->format("l, M j")); ?></h3>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 home-values" onclick="openInsideScreen();">
-            <div class="living-room temperature"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">°C</span></p></div>
+            <div class="living-room temperature"><p><span class="unity">00</span><span class="dot">.</span><span
+                            class="float">0</span><span class="unit">°C</span></p></div>
             <!--            <div class="living-room humidity"><p><span class="unity">00</span><span class="dot">.</span><span class="float">0</span><span class="unit">%</span></p></div>-->
             <div class="living-room humidity"><p><span class="unity">00</span><span class="unit">%</span></p></div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bottom-strip">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 bottom-buttons">
+                <div class="setup-button ui-btn" onclick="setup();">
+                    <i class="glyphicon glyphicon-cog"></i>
+                </div>
+                <div class="log-button ui-btn" onclick="openLogScreen();">
+                    <i class="glyphicon glyphicon-list-alt"></i>
+                </div>
+            </div>
         </div>
     </div>
     <!-- END DASHBOARD -->
@@ -112,7 +127,8 @@
     <!-- SETUP SCREEN -->
     <div class="row setup-screen">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <p class="lead text-left">SETUP <span class="muted">Get the desired temperature and program comfort/reduce mode</span> <span class="muted">[<?php echo $_SERVER['REMOTE_ADDR']; ?>]</span></p>
+            <p class="lead text-left">SETUP <span class="muted">Get the desired temperature and program comfort/reduce mode</span>
+                <span class="muted">[<?php echo $_SERVER['REMOTE_ADDR']; ?>]</span></p>
         </div>
 
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
@@ -147,13 +163,16 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 setup-type dailyProgrammingMode">
             <div class="btn-group" data-toggle="buttons">
                 <label class="btn ui-btn active">
-                    <input type="radio" name="dailyProgrammingMode" id="everyday" value="everydays" autocomplete="off" checked> Identical everyday
+                    <input type="radio" name="dailyProgrammingMode" id="everyday" value="everydays" autocomplete="off"
+                           checked> Identical everyday
                 </label>
                 <label class="btn ui-btn">
-                    <input type="radio" name="dailyProgrammingMode" id="weekday" value="weekdays" autocomplete="off"> Weekdays & weekend
+                    <input type="radio" name="dailyProgrammingMode" id="weekday" value="weekdays" autocomplete="off">
+                    Weekdays & weekend
                 </label>
                 <label class="btn ui-btn">
-                    <input type="radio" name="dailyProgrammingMode" id="eachday" value="eachdays" autocomplete="off"> Each weekday
+                    <input type="radio" name="dailyProgrammingMode" id="eachday" value="eachdays" autocomplete="off">
+                    Each weekday
                 </label>
             </div>
         </div>
@@ -161,7 +180,8 @@
             <div id="everydays" class="active">
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="everydayss" class="active">
-                        <a class="ui-btn" href="#everydayss" aria-controls="everydayss" role="tab" data-toggle="tab">Every day is identical</a>
+                        <a class="ui-btn" href="#everydayss" aria-controls="everydayss" role="tab" data-toggle="tab">Every
+                            day is identical</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -197,7 +217,8 @@
                         <a class="ui-btn" href="#weekdayss" aria-controls="weekdayss" role="tab" data-toggle="tab">Weekdays</a>
                     </li>
                     <li role="weekends" class="">
-                        <a class="ui-btn" href="#weekends" aria-controls="weekends" role="tab" data-toggle="tab">Weekend</a>
+                        <a class="ui-btn" href="#weekends" aria-controls="weekends" role="tab"
+                           data-toggle="tab">Weekend</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -214,7 +235,8 @@
                                                     <?php if ($m == 0): ?>
                                                         <input type="checkbox" name="<?php echo "weekday_{$h}"; ?>">
                                                     <?php else: ?>
-                                                        <input type="checkbox" name="<?php echo "weekday_{$h}.{$m}"; ?>">
+                                                        <input type="checkbox"
+                                                               name="<?php echo "weekday_{$h}.{$m}"; ?>">
                                                     <?php endif ?>
                                                 </label>
                                             </div>
@@ -237,7 +259,8 @@
                                                     <?php if ($m == 0): ?>
                                                         <input type="checkbox" name="<?php echo "weekend_{$h}"; ?>">
                                                     <?php else: ?>
-                                                        <input type="checkbox" name="<?php echo "weekend_{$h}.{$m}"; ?>">
+                                                        <input type="checkbox"
+                                                               name="<?php echo "weekend_{$h}.{$m}"; ?>">
                                                     <?php endif ?>
                                                 </label>
                                             </div>
@@ -254,13 +277,16 @@
                     <?php $week_days = [1 => "Monday", 2 => "Tuesday", 3 => "Wednesday", 4 => "Friday", 5 => "Thursday", 6 => "Saturday", 7 => "Sunday"]; ?>
                     <?php foreach ($week_days as $day_num => $day_label): ?>
                         <li role="<?php echo $day_label; ?>" class="<?php echo($day_num == 1 ? 'active' : ''); ?>">
-                            <a class="ui-btn" href="#<?php echo $day_label; ?>" aria-controls="<?php echo $day_label; ?>" role="tab" data-toggle="tab"><?php echo $day_label; ?></a>
+                            <a class="ui-btn" href="#<?php echo $day_label; ?>"
+                               aria-controls="<?php echo $day_label; ?>" role="tab"
+                               data-toggle="tab"><?php echo $day_label; ?></a>
                         </li>
                     <?php endforeach ?>
                 </ul>
                 <div class="tab-content">
                     <?php foreach ($week_days as $day_num => $day_label): ?>
-                        <div class="day tab-pane<?php echo($day_num == 1 ? ' active' : ''); ?>" role="tabpanel" id="<?php echo $day_label; ?>">
+                        <div class="day tab-pane<?php echo($day_num == 1 ? ' active' : ''); ?>" role="tabpanel"
+                             id="<?php echo $day_label; ?>">
                             <div class="hours">
                                 <?php for ($h = 0; $h <= 23; $h++): ?>
                                     <div class="hour">
@@ -271,9 +297,11 @@
                                                 <div class="half">
                                                     <label class="button ui-btn">
                                                         <?php if ($m == 0): ?>
-                                                            <input type="checkbox" name="<?php echo "{$day_num}_{$h}"; ?>">
+                                                            <input type="checkbox"
+                                                                   name="<?php echo "{$day_num}_{$h}"; ?>">
                                                         <?php else: ?>
-                                                            <input type="checkbox" name="<?php echo "{$day_num}_{$h}.{$m}"; ?>">
+                                                            <input type="checkbox"
+                                                                   name="<?php echo "{$day_num}_{$h}.{$m}"; ?>">
                                                         <?php endif ?>
                                                     </label>
                                                 </div>
@@ -301,13 +329,7 @@
     </div>
     <!-- END SETUP SCREEN -->
 
-    <div class="setup-button ui-btn" onclick="setup();">
-        <i class="glyphicon glyphicon-cog"></i>
-    </div>
 
-    <div class="log-button ui-btn" onclick="openLogScreen();">
-        <i class="glyphicon glyphicon-list-alt"></i>
-    </div>
 </div>
 </body>
 </html>

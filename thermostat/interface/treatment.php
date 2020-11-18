@@ -1,12 +1,5 @@
 <?php
 
-// Read and parse configuration file
-try {
-    $config = parse_ini_file('/home/thermostat/config.php');
-} catch (Exception $e) {
-    echo 'Fail to read config file!';
-}
-
 
 if ($_GET['action'] == 'getAmbianceMode') {
     echo json_encode(getAmbianceMode());
@@ -75,17 +68,21 @@ if ($_GET['action'] == 'setAmbianceMode') {
 
 function connectDB()
 {
-    global $config;
+
+    $dbHost = '127.0.0.1';
+    $dbUser = 'home';
+    $dbPass = '2DsNEPnDHH93WT2y';
+    $dbName = 'home';
+    $dbPort = 3307;
 
 
-    $mysqli = new mysqli($config['dbHost'], $config['dbUser'], $config['dbPass'], $config['dbName'], $config['dbPort']);
+    $mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName, $dbPort);
     if ($mysqli->connect_errno) {
         echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
 
     return $mysqli;
 }
-
 
 function getAmbianceMode()
 {
@@ -98,7 +95,6 @@ function getAmbianceMode()
 
 }
 
-
 function getCurrentAmbianceMode()
 {
     $mysqli = connectDB();
@@ -110,7 +106,6 @@ function getCurrentAmbianceMode()
 
 }
 
-
 function getCurrentDate()
 {
 
@@ -118,14 +113,12 @@ function getCurrentDate()
     return strtoupper($date->format("l, M j"));
 }
 
-
 function getCurrentTime()
 {
 
     $time = new DateTime();
     return $time->format("H:i");
 }
-
 
 function getTargetTemperature()
 {
@@ -137,7 +130,6 @@ function getTargetTemperature()
     return sprintf("%01.1f", $row['temperature']);
 
 }
-
 
 function getTemperatureSettings()
 {
@@ -159,7 +151,6 @@ function getTemperatureSettings()
     return $result;
 }
 
-
 function setTargetTemperature($temp)
 {
     $mysqli = connectDB();
@@ -169,7 +160,6 @@ function setTargetTemperature($temp)
     return $res;
 
 }
-
 
 function getCurrentSensorData($sensor)
 {
@@ -191,7 +181,6 @@ function getCurrentSensorData($sensor)
 
 }
 
-
 function getDateOfLastRecordedData($sensor)
 {
     $mysqli = connectDB();
@@ -202,7 +191,6 @@ function getDateOfLastRecordedData($sensor)
 
     return $result;
 }
-
 
 function getSensorHistory($sensor, $temperature = false, $pressure = false, $humidity = false)
 {
@@ -228,7 +216,8 @@ function getSensorHistory($sensor, $temperature = false, $pressure = false, $hum
 
     // TEMPERATURE
     if ($temperature == 'true') {
-//    $res = $mysqli->query( "SELECT TIME_FORMAT(`recordTime`,'%H:%i') FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,24" );
+		//$res = $mysqli->query( "SELECT TIME_FORMAT(`recordTime`,'%H:%i') FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,24" );
+		//$res = $mysqli->query("SELECT `value`,DATE_FORMAT(`recordTime`,'%h') FROM `sensors` WHERE `recordTime` BETWEEN NOW() - INTERVAL 24 HOUR AND NOW() AND `type` = 'temperature' AND `location` = '$sensor' GROUP BY DATE_FORMAT(`recordTime`,'%d;%m-%H')");
         $res = $mysqli->query("SELECT DATE_FORMAT(`recordTime`,'%H') FROM `sensors` WHERE `recordTime` BETWEEN NOW() - INTERVAL 48 HOUR AND NOW() AND `type` = 'temperature' AND `location` = '$sensor' GROUP BY DATE_FORMAT(`recordTime`,'%d;%m-%H')");
         $row = $res->fetch_all(MYSQLI_NUM);
         $tempArray = array();
@@ -240,11 +229,12 @@ function getSensorHistory($sensor, $temperature = false, $pressure = false, $hum
                 $tempArray[] = '';
             }
         }
-//    $result['temperature']['labels'] = array_reverse( $tempArray );
+        //$result['temperature']['labels'] = array_reverse( $tempArray );
         $result['temperature']['labels'] = $tempArray;
 
-//    $res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,24" );
+        //$res = $mysqli->query( "SELECT `value` FROM `sensors` WHERE `location` = '$sensor' AND `type` = 'temperature' ORDER BY `recordTime` DESC LIMIT 0,24" );
         $res = $mysqli->query("SELECT AVG(`value`) FROM `sensors` WHERE `recordTime` BETWEEN NOW() - INTERVAL 48 HOUR AND NOW() AND `type` = 'temperature' AND `location` = '$sensor' GROUP BY DATE_FORMAT(`recordTime`,'%d;%m-%H')");
+		//$res = $mysqli->query("SELECT AVG(`value`) FROM `sensors` WHERE `recordTime` BETWEEN NOW() - INTERVAL 24 HOUR AND NOW() AND `type` = 'temperature' AND `location` = '$sensor' GROUP BY DATE_FORMAT(`recordTime`,'%d;%m-%H')");
         $row = $res->fetch_all(MYSQLI_NUM);
         $tempArray = array();
         foreach ($row as $key => $value) {
@@ -317,7 +307,6 @@ function getSensorHistory($sensor, $temperature = false, $pressure = false, $hum
 
 }
 
-
 function getDailyProgrammingMode()
 {
     $mysqli = connectDB();
@@ -329,7 +318,6 @@ function getDailyProgrammingMode()
     return $result;
 }
 
-
 function setDailyProgrammingMode($mode = "everyday|eachday|weekday")
 {
     $mysqli = connectDB();
@@ -340,7 +328,6 @@ function setDailyProgrammingMode($mode = "everyday|eachday|weekday")
 
 }
 
-
 function getProgram()
 {
     $mysqli = connectDB();
@@ -349,7 +336,6 @@ function getProgram()
 
     return $res->fetch_all(MYSQLI_ASSOC);
 }
-
 
 function setProgram($name, $period, $value)
 {
@@ -361,7 +347,6 @@ function setProgram($name, $period, $value)
     return "UPDATE `program` SET `$period` = '$value' WHERE `day` = '$name'";
 
 }
-
 
 function setAmbianceMode($value)
 {
@@ -375,7 +360,6 @@ function setAmbianceMode($value)
     }
 
 }
-
 
 function getSslPage($url)
 {
@@ -393,7 +377,6 @@ function getSslPage($url)
 
     return $result;
 }
-
 
 function verifySslCapability()
 {

@@ -16,19 +16,22 @@
 html {
     font-family: 'Open Sans Condensed Light', sans-serif;
     overflow: hidden;
-    /*cursor: none;*/
+    cursor: none;
     width: 800px;
     height: 480px;
 }
 
 body {
+    width: 100%;
+    height: 100%;
     background-color: #0CA7D2;
     font-family: 'Open Sans Condensed Light', sans-serif;
-    /*cursor: none;*/
+    cursor: none;
 }
 
 .container-fluid {
     width: 100%;
+    height: 100%;
 }
 
 .container-fluid .outside-screen,
@@ -277,7 +280,7 @@ body {
 
 .container-fluid .dashboard .home-values {
     background-color: #0785A9;
-    height: 100%;
+    /*height: 100%;*/
     margin-top: 8%;
 }
 
@@ -486,12 +489,22 @@ body {
     }
 }
 
+.bottom-strip {
+    padding: 0;
+}
+
+.bottom-buttons {
+    background-color: #0785A9;
+    padding: 0;
+}
+
 .setup-button {
-    position: absolute;
+    /*position: absolute;*/
+    float: right;
     width: 46px;
     height: 46px;
-    bottom: 0;
-    right: 0;
+    /*bottom: 0;*/
+    /*right: 0;*/
     background-color: transparent;
 }
 
@@ -502,11 +515,12 @@ body {
 }
 
 .log-button {
-    position: absolute;
+    /*position: absolute;*/
+    float: right;
     width: 46px;
     height: 46px;
-    bottom: 2px;
-    right: 48px;
+    /*bottom: 2px;*/
+    /*right: 48px;*/
     background-color: transparent;
 }
 

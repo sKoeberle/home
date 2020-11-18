@@ -2,7 +2,7 @@
  * Created by Stéphane Koeberlé on 2016/10/30.
  */
 
-const config = {id: '3037368', tokenId: 'b6907d289e10d714a6e88b30761fae22'};
+const config = {id: '3037368', tokenId: '990ea8eee3e45a92a824d23d8771f493'};
 
 var minTemp = 17;
 var maxTemp = 25;
@@ -45,21 +45,22 @@ $(document).ready(function () {
     $('.setup-screen').hide();
     $('.ambiance-setup').hide();
 
-    // getDateOfLastRecordedData('exterior', 1);
+    getDateOfLastRecordedData('exterior', 1);
     getDateOfLastRecordedData('living-room', 1);
 
+    //getSensor('exterior');
     getSensor('living-room');
-    // getSensor('exterior');
     getAmbianceMode();
     getCurrentAmbianceMode();
+    getOpenWeatherMap(id, tokenId, units, lang);
 
     window.loop = setInterval(function () {
-        // getSensor('exterior');
+        getDateOfLastRecordedData('exterior', 1);
+        getDateOfLastRecordedData('living-room', 1);
+        //getSensor('exterior');
         getSensor('living-room');
         getAmbianceMode();
         getCurrentAmbianceMode();
-        // getDateOfLastRecordedData('exterior', 1);
-        getDateOfLastRecordedData('living-room', 1);
         getOpenWeatherMap(id, tokenId, units, lang);
     }, 60000);
 
@@ -67,7 +68,7 @@ $(document).ready(function () {
         window.location.reload();
     });
 
-    getOpenWeatherMap(id, tokenId, units, lang);
+    //getOpenWeatherMap(id, tokenId, units, lang);
 });
 
 
@@ -101,10 +102,17 @@ function getDateOfLastRecordedData(location, i) {
                 blink = true;
                 openAlertScreen('(' + location + ')');
                 blinkSensor($('.sensor-status'));
+
+
             }
         } else {
             closeAlertScreen();
             unblinkSensor(interval);
+            getSensor('exterior');
+        }
+
+        if (location === 'exterior') {
+            getOpenWeatherMap(id, tokenId, units, lang);
         }
 
     });
@@ -161,11 +169,12 @@ function display(location, t, p, h) {
     h = parseInt(h);
     p = parseInt(p);
 
-    console.log(location, t, p, h);
+    //console.log(location, t, p, h);
+
     var temperature = [];
 
     if (t !== '') {
-        if (t.includes('.')) {
+        if (t.indexOf('.') !== -1) {
             temperature = t.split('.');
             temperature[1] = temperature[1].substr(0, 1);
         } else {
@@ -173,7 +182,6 @@ function display(location, t, p, h) {
             temperature[1] = 0;
         }
         if (temperature[1] <= 2) {
-            // temperature[0]++;
             temperature[1] = 0;
         }
         if (temperature[1] > 2 && temperature[1] <= 7) {
@@ -213,12 +221,12 @@ function getCurrentAmbianceMode() {
         action: 'getCurrentAmbianceMode'
     }).done(function (json) {
 
-        if (json == 'reduced') {
+        if (json === 'reduced') {
             $('.ambiance-mode .sun').hide();
             $('.ambiance-mode .cold').show();
         }
 
-        if (json == 'comfort') {
+        if (json === 'comfort') {
             $('.ambiance-mode .cold').hide();
             $('.ambiance-mode .sun').show();
         }
@@ -413,7 +421,7 @@ function openOutsideScreen() {
         filter: 'blur(12px)',
         webkitFilter: 'blur(12px)'
     });
-    $('.alert-screen').fadeIn();
+    $('.outside-screen').fadeIn();
 
 
     getSensorHistory('exterior', true, true, false);
@@ -444,7 +452,7 @@ function openInsideScreen() {
 
     getSensorHistory('living-room', true, false, true);
 
-    window.outsideScreenTimeout = setTimeout(function () {
+    window.insideScreenTimeout = setTimeout(function () {
         closeInsideScreen();
     }, 20000);
 }
@@ -507,7 +515,6 @@ function getSensorHistory(location, t, p, h) {
 
         if (json.temperature && t) {
 
-
             var options = {
                 width: '99%',
                 height: '170px',
@@ -545,8 +552,9 @@ function getSensorHistory(location, t, p, h) {
 
             });
         }
-        if (json.pressure && p) {
 
+
+        if (json.pressure && p) {
 
             var options = {
                 width: '99%',
@@ -583,8 +591,9 @@ function getSensorHistory(location, t, p, h) {
 
             });
         }
-        if (json.humidity && h) {
 
+
+        if (json.humidity && h) {
 
             var options = {
                 width: '99%',
@@ -682,8 +691,8 @@ function getProgram() {
             var prefix = object.day;
             $.each(object, function (index, value) {
 
-                if (index != 'day') {
-                    if (value == 1) {
+                if (index !== 'day') {
+                    if (value === 1) {
                         $('input[name="' + prefix + '_' + index + '"]').parent().addClass('active');
                         $('input[name="' + prefix + '_' + index + '"]').attr('checked', true);
                     } else {
@@ -695,7 +704,6 @@ function getProgram() {
             });
         });
     });
-
 }
 
 
@@ -708,7 +716,7 @@ function setProgram() {
         var name = array[0];
         var position = array[1];
         var value = $(this).hasClass('active');
-        if (value == true) {
+        if (value === true) {
             value = 1;
         } else {
             value = 0;
@@ -748,7 +756,6 @@ function blinkSensor(sensor) {
             sensor.animate({opacity: 1}, 500);
         });
     }, 1000)
-
 }
 
 
@@ -759,7 +766,7 @@ function unblinkSensor(interval) {
 
 function getOpenWeatherMap(id, tokenId, units, lang) {
 
-    $.getJSON('https://openweathermap.org/data/2.5/weather/?appid=' + tokenId + '&id=' + id + '&units=' + units + '&lang=' + lang, {}).done(function (json) {
+    $.getJSON('https://api.openweathermap.org/data/2.5/weather/?appid=' + tokenId + '&id=' + id + '&units=' + units + '&lang=' + lang, {}).done(function (json) {
         display('outside', json.main.temp, json.main.pressure, json.main.humidity);
         displayWeather(json.weather[0].icon, json.main.temp_min, json.main.temp_max);
     });
